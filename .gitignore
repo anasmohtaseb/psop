@@ -1,0 +1,25 @@
+# Environment
+.env
+
+# Composer
+/vendor/
+composer.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/logs/
+
+# Uploads
+/public/uploads/*
+!/public/uploads/.gitkeep
