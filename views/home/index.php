@@ -2,11 +2,6 @@
 <section id="hero" class="hero">
     <div class="container hero-grid">
         <div>
-            <div class="hero-badge-row">
-                <div class="hero-badge">
-                    بوابة وطنية تجمع <strong>الأوليمبيادات العلمية الدولية</strong> في فلسطين
-                </div>
-            </div>
             <h1 class="hero-title">
                 اكتشاف ورعاية
                 <span>العقول الفلسطينية المبدعة</span>
