@@ -193,8 +193,9 @@ if (document.querySelector('.hero-slider')) {
     showSlide(0);
     startSlideInterval();
     
-    // Pause on hover
     const slider = document.querySelector('.hero-slider');
+    
+    // Pause on hover (desktop)
     slider.addEventListener('mouseenter', () => {
         clearInterval(slideInterval);
     });
@@ -202,6 +203,36 @@ if (document.querySelector('.hero-slider')) {
     slider.addEventListener('mouseleave', () => {
         startSlideInterval();
     });
+    
+    // Touch support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    slider.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(slideInterval);
+    }, { passive: true });
+    
+    slider.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+        startSlideInterval();
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - next slide
+                changeSlide(1);
+            } else {
+                // Swipe right - previous slide
+                changeSlide(-1);
+            }
+        }
+    }
 }
 
 // ====================================
