@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'بوابة الأولمبياد العلمي الفلسطيني' ?></title>
+    <title><?= $title ?? ($site_settings['site_name_ar'] ?? 'Palestine Science Olympiad Portal') ?></title>
+    <meta name="description" content="<?= $site_settings['site_description'] ?? 'Platform for managing Palestinian participation in international science olympiads' ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -15,12 +16,18 @@
         <div class="container">
             <nav class="nav">
                 <div class="logo-box">
-                    <div class="logo-mark">
-                        <div class="logo-mark-inner"></div>
-                    </div>
+                    <?php if (!empty($site_settings['site_logo'])): ?>
+                        <img src="<?= $this->url($site_settings['site_logo']) ?>" 
+                             alt="<?= $this->e($site_settings['site_name_ar'] ?? 'Logo') ?>" 
+                             style="max-height: 50px; margin-left: 15px;">
+                    <?php else: ?>
+                        <div class="logo-mark">
+                            <div class="logo-mark-inner"></div>
+                        </div>
+                    <?php endif; ?>
                     <div>
-                        <div class="logo-text-main">بوابة الأوليمبياد العلمية في فلسطين</div>
-                        <div class="logo-text-sub">منصة موحدة للمسابقات العلمية الدولية</div>
+                        <div class="logo-text-main"><?= $this->e($site_settings['site_name_ar'] ?? 'Palestine Science Olympiad Portal') ?></div>
+                        <div class="logo-text-sub"><?= $this->e($site_settings['site_description'] ?? 'Unified platform for international science competitions') ?></div>
                     </div>
                 </div>
                 <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="القائمة">
@@ -31,6 +38,7 @@
                 <div class="nav-links" id="navLinks">
                     <a href="<?= $this->url('/') ?>" class="nav-link">الرئيسية</a>
                     <a href="<?= $this->url('/competitions') ?>" class="nav-link">المسابقات</a>
+                    <a href="<?= $this->url('/subscriptions/plans') ?>" class="nav-link">الاشتراكات</a>
                     <a href="<?= $this->url('/about') ?>" class="nav-link">عن البوابة</a>
                     <a href="<?= $this->url('/contact') ?>" class="nav-link">اتصل بنا</a>
                     <?php if (isset($_SESSION['user_id'])): ?>
@@ -113,9 +121,14 @@
 
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <p>&copy; 2025 بوابة الأولمبياد العلمية في فلسطين - جميع الحقوق محفوظة</p>
+                    <p>&copy; 2025 <?= $this->e($site_settings['site_name_ar'] ?? 'Palestine Science Olympiad Portal') ?> - All rights reserved</p>
                     <div class="footer-credits">
-                        <span>صنع بكل ❤️ في فلسطين</span>
+                        <?php if (!empty($site_settings['site_email'])): ?>
+                            <span>📧 <?= $this->e($site_settings['site_email']) ?></span>
+                        <?php endif; ?>
+                        <?php if (!empty($site_settings['site_phone'])): ?>
+                            <span>📱 <?= $this->e($site_settings['site_phone']) ?></span>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

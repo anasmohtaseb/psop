@@ -20,15 +20,21 @@ class HomeController extends Controller
         $competitionModel = new \App\Models\Competition($this->config);
         $editionModel = new \App\Models\CompetitionEdition($this->config);
         $announcementModel = new \App\Models\Announcement($this->config);
+        $slideModel = new \App\Models\HeroSlide($this->config);
+        $settingModel = new \App\Models\SiteSetting($this->config);
         
         $activeCompetitions = $competitionModel->findActive();
         $openCompetitions = $editionModel->findOpenForRegistration();
         $announcements = $announcementModel->findPublished('all');
+        $heroSlides = $slideModel->getActiveSlides();
+        $siteSettings = $settingModel->getAllAsArray();
         
         $this->render('home/index', [
             'active_competitions' => $activeCompetitions,
             'open_competitions' => $openCompetitions,
             'announcements' => array_slice($announcements, 0, 3),
+            'hero_slides' => $heroSlides,
+            'site_settings' => $siteSettings,
         ], 'public');
     }
 
@@ -37,7 +43,18 @@ class HomeController extends Controller
      */
     public function about(): void
     {
-        $this->render('home/about', [], 'public');
+        $pageModel = new \App\Models\Page($this->config);
+        $pageContent = $pageModel->getPageContent('about');
+        
+        // إذا لم تكن البيانات موجودة في قاعدة البيانات، عرض الصفحة الثابتة
+        if (!$pageContent) {
+            $this->render('home/about', [], 'public');
+            return;
+        }
+        
+        $this->render('home/about_dynamic', [
+            'page' => $pageContent
+        ], 'public');
     }
 
     /**

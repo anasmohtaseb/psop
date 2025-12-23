@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'لوحة التحكم' ?> - بوابة الأولمبياد العلمي</title>
+    <title><?= $title ?? 'Dashboard' ?> - <?= $site_settings['site_name_en'] ?? 'PSOP' ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -43,12 +43,18 @@
         <div class="dashboard-top-bar">
             <div class="dashboard-left">
                 <div class="dashboard-brand">
-                    <div class="dashboard-icon">
-                        <div class="dashboard-icon-inner"></div>
-                    </div>
+                    <?php if (!empty($site_settings['site_logo'])): ?>
+                        <img src="<?= $this->url($site_settings['site_logo']) ?>" 
+                             alt="Logo" 
+                             style="max-height: 40px; margin-left: 10px;">
+                    <?php else: ?>
+                        <div class="dashboard-icon">
+                            <div class="dashboard-icon-inner"></div>
+                        </div>
+                    <?php endif; ?>
                     <div class="dashboard-title-box">
-                        <h1 class="dashboard-title">لوحة التحكم</h1>
-                        <p class="dashboard-subtitle">بوابة الأوليمبياد العلمية</p>
+                        <h1 class="dashboard-title">Dashboard</h1>
+                        <p class="dashboard-subtitle"><?= $this->e($site_settings['site_name_en'] ?? 'PSOP') ?></p>
                     </div>
                 </div>
             </div>
@@ -96,6 +102,22 @@
                     <li><a href="<?= $this->url('/admin/subscriptions') ?>"><span>💳</span> الاشتراكات</a></li>
                     <li><a href="<?= $this->url('/admin/subscriptions/plans') ?>"><span>📊</span> خطط الاشتراك</a></li>
                     <li><a href="<?= $this->url('/admin/announcements') ?>"><span>📢</span> الإعلانات</a></li>
+                    
+                    <!-- Settings Dropdown -->
+                    <li class="sidebar-dropdown">
+                        <button class="sidebar-dropdown-toggle" onclick="toggleSettingsMenu(event)">
+                            <span class="dropdown-content">
+                                <span class="dropdown-icon">⚙️</span>
+                                <span>Settings</span>
+                            </span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <ul class="sidebar-submenu">
+                            <li><a href="<?= $this->url('/admin/settings') ?>"><span>🔧</span> Site Settings</a></li>
+                            <li><a href="<?= $this->url('/admin/pages') ?>"><span>📄</span> Manage Pages</a></li>
+                            <li><a href="<?= $this->url('/admin/slider') ?>"><span>🖼️</span> Hero Slider</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
             </ul>
         </aside>
@@ -133,7 +155,124 @@
                 e.stopPropagation();
             });
         }
+        
+        // Settings dropdown toggle
+        function toggleSettingsMenu(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const button = event.currentTarget;
+            const submenu = button.nextElementSibling;
+            const arrow = button.querySelector('.dropdown-arrow');
+            
+            // Toggle active class
+            button.classList.toggle('active');
+            submenu.classList.toggle('active');
+            
+            // Rotate arrow
+            if (submenu.classList.contains('active')) {
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
     </script>
+    
+    <style>
+        /* Sidebar Dropdown Styles */
+        .sidebar-dropdown {
+            margin-bottom: 4px;
+        }
+        
+        .sidebar-dropdown-toggle {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #4b5563;
+            background: transparent;
+            border: none;
+            transition: all 0.2s ease;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: right;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .dropdown-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .dropdown-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-dropdown-toggle:hover {
+            background: #f3f4f6;
+            color: var(--primary);
+        }
+        
+        .sidebar-dropdown-toggle.active {
+            background: #fef2f2;
+            color: var(--primary);
+        }
+        
+        .sidebar-submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .sidebar-submenu.active {
+            max-height: 300px;
+            margin-top: 4px;
+        }
+        
+        .sidebar-submenu li {
+            margin-bottom: 2px;
+        }
+        
+        .sidebar-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px 10px 52px;
+            color: #6b7280;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .sidebar-submenu a span {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-submenu a:hover {
+            background: #f9fafb;
+            color: var(--primary);
+            padding-right: 20px;
+        }
+    </style>
+    
     <script src="<?= $this->asset('js/app.js') ?>"></script>
 </body>
 </html>

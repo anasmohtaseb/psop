@@ -106,6 +106,38 @@ $router->get('/admin/subscriptions/plans/{planId}/edit', 'SubscriptionController
 $router->post('/admin/subscriptions/plans/update', 'SubscriptionController', 'adminUpdatePlan');
 $router->post('/admin/subscriptions/plans/delete', 'SubscriptionController', 'adminDeletePlan');
 
+// Admin page management routes
+$router->get('/admin/pages', 'Admin\PageController', 'index');
+$router->get('/admin/pages/edit', 'Admin\PageController', 'edit');
+$router->post('/admin/pages/update-info', 'Admin\PageController', 'updatePageInfo');
+$router->post('/admin/pages/update-section', 'Admin\PageController', 'updateSection');
+$router->post('/admin/pages/create-section', 'Admin\PageController', 'createSection');
+$router->post('/admin/pages/delete-section', 'Admin\PageController', 'deleteSection');
+$router->post('/admin/pages/update-stat', 'Admin\PageController', 'updateStat');
+$router->post('/admin/pages/create-stat', 'Admin\PageController', 'createStat');
+$router->post('/admin/pages/delete-stat', 'Admin\PageController', 'deleteStat');
+
+// Admin slider management routes
+$router->get('/admin/slider', 'Admin\SliderController', 'index');
+$router->get('/admin/slider/create', 'Admin\SliderController', 'create');
+$router->post('/admin/slider/store', 'Admin\SliderController', 'store');
+$router->get('/admin/slider/edit', 'Admin\SliderController', 'edit');
+$router->post('/admin/slider/update', 'Admin\SliderController', 'update');
+$router->post('/admin/slider/delete', 'Admin\SliderController', 'delete');
+$router->post('/admin/slider/toggle', 'Admin\SliderController', 'toggleActive');
+
+// Admin settings routes
+$router->get('/admin/settings', 'Admin\SettingsController', 'index');
+$router->post('/admin/settings/update', 'Admin\SettingsController', 'update');
+
+// Admin announcements routes
+$router->get('/admin/announcements', 'Admin\AnnouncementController', 'index');
+$router->get('/admin/announcements/create', 'Admin\AnnouncementController', 'create');
+$router->post('/admin/announcements/store', 'Admin\AnnouncementController', 'store');
+$router->get('/admin/announcements/edit', 'Admin\AnnouncementController', 'edit');
+$router->post('/admin/announcements/update', 'Admin\AnnouncementController', 'update');
+$router->post('/admin/announcements/delete', 'Admin\AnnouncementController', 'delete');
+
 // Dispatch the request
 try {
     $requestMethod = $_SERVER['REQUEST_METHOD'];

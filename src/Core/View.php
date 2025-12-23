@@ -29,6 +29,17 @@ class View
             session_start();
         }
         
+        // Load site settings globally
+        if (!isset($data['site_settings'])) {
+            try {
+                $settingModel = new \App\Models\SiteSetting($this->config);
+                $data['site_settings'] = $settingModel->getAllAsArray();
+            } catch (\Exception $e) {
+                // If settings table doesn't exist or error, use empty array
+                $data['site_settings'] = [];
+            }
+        }
+        
         // Add current user to data if authenticated
         if (!isset($data['user']) && isset($_SESSION['user'])) {
             $data['user'] = $_SESSION['user'];

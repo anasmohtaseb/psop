@@ -4,11 +4,11 @@
         <div>
             <h1 class="hero-title">
                 اكتشاف ورعاية
-                <span>العقول الفلسطينية المبدعة</span>
+                <span>العقول المبدعة</span>
                 عبر الأوليمبيادات العلمية العالمية
             </h1>
             <p class="hero-subtitle">
-                تهدف بوابة الأوليمبياد العلمية في فلسطين إلى توحيد التسجيل، التدريب، وإدارة المشاركة الفلسطينية
+                تهدف بوابة الأوليمبياد العلمية إلى توحيد التسجيل، التدريب، وإدارة المشاركة
                 في أهم المسابقات الدولية في مجالات الرياضيات، المعلوماتية، الذكاء الاصطناعي، البرمجة، الأمن السيبراني
                 والفلسفة، بالشراكة مع المدارس والجامعات ومؤسسات التعليم.
             </p>
@@ -18,40 +18,62 @@
                 <a href="<?= $this->url('/about') ?>" class="btn-outline">دليل المشاركة والمدربين</a>
             </div>
             <div class="hero-footnote">
-                البوابة موجهة لطلبة المدارس والجامعات في فلسطين، مع إتاحة
-                برامج تدريبية وتأهيلية بإشراف لجنة علمية وطنية.
+                البوابة موجهة لطلبة المدارس والجامعات، مع إتاحة
+                برامج تدريبية وتأهيلية بإشراف لجنة علمية متخصصة.
                 <strong>إطلاق الدورة الأولى التجريبية قريباً.</strong>
             </div>
         </div>
 
-        <aside class="hero-card" aria-label="موجز إحصائي">
-            <div class="hero-card-header">
-                <div>
-                    <div class="hero-card-title">مؤشرات المشاركة الفلسطينية المتوقعة</div>
-                    <div class="hero-card-sub">بحسب الخطة الوطنية للأوليمبيادات العلمية</div>
+        <aside class="hero-slider-container" aria-label="معرض الصور">
+            <div class="hero-slider">
+                <div class="slider-wrapper">
+                    <?php if (!empty($hero_slides)): ?>
+                        <?php foreach ($hero_slides as $index => $slide): ?>
+                            <div class="slide <?= $index === 0 ? 'active' : '' ?>">
+                                <img src="<?= $this->asset($slide['image_path']) ?>" 
+                                     alt="<?= $this->e($slide['title_ar']) ?>" 
+                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'400\'%3E%3Crect fill=\'%23e11d48\' width=\'600\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'24\' fill=\'white\' text-anchor=\'middle\' dominant-baseline=\'middle\' font-family=\'Cairo\'%3E<?= $this->e($slide['title_ar']) ?>%3C/text%3E%3C/svg%3E'">
+                                <div class="slide-caption">
+                                    <h3><?= $this->e($slide['title_ar']) ?></h3>
+                                    <?php if (!empty($slide['description_ar'])): ?>
+                                        <p><?= $this->e($slide['description_ar']) ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <!-- Default slides if no slides in database -->
+                        <div class="slide active">
+                            <img src="<?= $this->asset('uploads/competitions/slide1.jpg') ?>" alt="طلاب في مسابقة عالمية" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'400\'%3E%3Crect fill=\'%23e11d48\' width=\'600\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'24\' fill=\'white\' text-anchor=\'middle\' dominant-baseline=\'middle\' font-family=\'Cairo\'%3Eطلاب في الأوليمبياد%3C/text%3E%3C/svg%3E'">
+                            <div class="slide-caption">
+                                <h3>طلاب يتألقون في الأوليمبياد الدولي</h3>
+                                <p>تمثيل مشرف في المسابقات العالمية</p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <div class="hero-chip">مرحلة الإطلاق التجريبي</div>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-box">
-                    <div class="stat-label">عدد الطلبة المستهدفين</div>
-                    <div class="stat-value">+500</div>
-                    <div class="stat-tag">من مختلف المحافظات</div>
+                
+                <!-- Navigation Arrows -->
+                <button class="slider-nav prev" onclick="changeSlide(-1)" aria-label="الصورة السابقة">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="slider-nav next" onclick="changeSlide(1)" aria-label="الصورة التالية">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+                
+                <!-- Dots Navigation -->
+                <div class="slider-dots">
+                    <?php 
+                    $slideCount = !empty($hero_slides) ? count($hero_slides) : 1;
+                    for ($i = 0; $i < $slideCount; $i++): 
+                    ?>
+                        <span class="dot <?= $i === 0 ? 'active' : '' ?>" onclick="goToSlide(<?= $i ?>)"></span>
+                    <?php endfor; ?>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-label">مسابقات دولية</div>
-                    <div class="stat-value">6</div>
-                    <div class="stat-tag">ريادة فلسطينية في التمثيل</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label">مدارس وجامعات</div>
-                    <div class="stat-value">+80</div>
-                    <div class="stat-tag">شركاء في التدريب والاحتضان</div>
-                </div>
-            </div>
-            <div class="timeline">
-                <span>فترة التسجيل الأولى: <strong>تعلن قريباً</strong></span>
-                <span>التدريبات: ورش عمل، مخيمات، ولقاءات أونلاين</span>
             </div>
         </aside>
     </div>
@@ -64,156 +86,137 @@
             <div>
                 <div class="section-title">المسابقات الدولية المعتمدة في البوابة</div>
                 <div class="section-subtitle">
-                    تضم البوابة مجموعة من أهم الأوليمبيادات العلمية الدولية المعترف بها عالمياً، وتتيح للطلبة الفلسطينيين
-                    التسجيل والتأهيل والمشاركة تحت مظلة وطنية موحدة.
+                    تضم البوابة مجموعة من أهم الأوليمبيادات العلمية الدولية المعترف بها عالمياً، وتتيح للطلبة
+                    التسجيل والتأهيل والمشاركة تحت مظلة موحدة.
                 </div>
             </div>
             <div class="section-subtitle">
-                يمكن لكل طالب ومدرسة الاطلاع على تفاصيل كل مسابقة، شروط المشاركة، مواد التدريب، وآلية اختيار الفرق الوطنية.
+                يمكن لكل طالب ومدرسة الاطلاع على تفاصيل كل مسابقة، شروط المشاركة، مواد التدريب، وآلية اختيار الفرق.
             </div>
         </div>
 
         <div class="cards-grid">
-            <!-- IMO -->
-            <article class="comp-card">
-                <div class="comp-logo">
-                    <div class="comp-logo-placeholder"></div>
+            <?php if (!empty($active_competitions)): ?>
+                <?php foreach ($active_competitions as $competition): ?>
+                    <article class="comp-card">
+                        <div class="comp-logo">
+                            <?php if (!empty($competition['logo_path'])): ?>
+                                <img src="<?= $this->asset($competition['logo_path']) ?>" 
+                                     alt="<?= $this->e($competition['name_ar']) ?>"
+                                     style="width: 100%; height: 100%; object-fit: contain;">
+                            <?php else: ?>
+                                <div class="comp-logo-placeholder"></div>
+                            <?php endif; ?>
+                        </div>
+                        <h3 class="comp-title"><?= $this->e($competition['name_ar']) ?></h3>
+                        <div class="comp-acronym">(<?= $this->e($competition['code']) ?>)</div>
+                        <p class="comp-text">
+                            <?= $this->e($competition['description_ar'] ?? $competition['description_en'] ?? 'International competition') ?>
+                        </p>
+                        <div class="comp-footer">
+                            <span>Read more about this competition</span>
+                            <span class="icon">›</span>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <!-- Default message if no competitions -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <p style="color: #666; font-size: 16px;">No competitions available at the moment</p>
                 </div>
-                <h3 class="comp-title">الأوليمبياد الدولي للرياضيات</h3>
-                <div class="comp-acronym">(IMO)</div>
-                <p class="comp-text">
-                    أعرق مسابقة عالمية في الرياضيات لطلبة المدارس الثانوية. تهدف إلى تنمية مهارات
-                    التفكير المنطقي وحل المسائل العليا، واكتشاف المواهب الرياضية المتميزة مبكراً.
-                </p>
-                <div class="comp-footer">
-                    <span>قراءة المزيد عن المسابقة</span>
-                    <span class="icon">›</span>
-                </div>
-            </article>
-
-            <!-- IOAI -->
-            <article class="comp-card">
-                <div class="comp-logo">
-                    <div class="comp-logo-placeholder"></div>
-                </div>
-                <h3 class="comp-title">الأوليمبياد الدولي للذكاء الاصطناعي</h3>
-                <div class="comp-acronym">(IOAI)</div>
-                <p class="comp-text">
-                    منصة عالمية ناشئة لطلبة المدارس في مجالات الذكاء الاصطناعي، تعلم الآلة، وتحليل البيانات،
-                    مع تركيز على حل المشكلات الواقعية باستخدام أدوات وخوارزميات حديثة.
-                </p>
-                <div class="comp-footer">
-                    <span>قراءة المزيد عن المسابقة</span>
-                    <span class="icon">›</span>
-                </div>
-            </article>
-
-            <!-- IOI -->
-            <article class="comp-card">
-                <div class="comp-logo">
-                    <div class="comp-logo-placeholder"></div>
-                </div>
-                <h3 class="comp-title">الأوليمبياد الدولي في المعلوماتية</h3>
-                <div class="comp-acronym">(IOI)</div>
-                <p class="comp-text">
-                    مسابقة عالمية رائدة في البرمجة التنافسية والخوارزميات. تركز على تصميم حلول
-                    برمجية فعّالة للمشكلات المعقدة باستخدام لغات البرمجة الحديثة.
-                </p>
-                <div class="comp-footer">
-                    <span>قراءة المزيد عن المسابقة</span>
-                    <span class="icon">›</span>
-                </div>
-            </article>
-
-            <!-- ACPC Schools -->
-            <article class="comp-card">
-                <div class="comp-logo">
-                    <div class="comp-logo-placeholder"></div>
-                </div>
-                <h3 class="comp-title">مسابقة البرمجة العربية لطلبة المدارس</h3>
-                <div class="comp-acronym">(ACPC Schools)</div>
-                <p class="comp-text">
-                    مسابقة إقليمية تجمع الطلبة من الدول العربية في أجواء تنافسية في البرمجة،
-                    وتشكل بوابة مبكرة نحو عالم المسابقات الإقليمية والعالمية مثل ICPC وIOI.
-                </p>
-                <div class="comp-footer">
-                    <span>قراءة المزيد عن المسابقة</span>
-                    <span class="icon">›</span>
-                </div>
-            </article>
-
-            <!-- Cybersecurity Olympiad -->
-            <article class="comp-card">
-                <div class="comp-logo">
-                    <div class="comp-logo-placeholder"></div>
-                </div>
-                <h3 class="comp-title">الأوليمبياد الدولي للأمن السيبراني</h3>
-                <div class="comp-acronym">Cyber Security Olympiad</div>
-                <p class="comp-text">
-                    مسابقة متخصصة تركز على أمن المعلومات، اختبار الاختراق الأخلاقي، وتحليل الثغرات،
-                    وتعمل على إعداد جيل واعٍ بمخاطر الفضاء الرقمي وطرق الحماية المتقدمة.
-                </p>
-                <div class="comp-footer">
-                    <span>قراءة المزيد عن المسابقة</span>
-                    <span class="icon">›</span>
-                </div>
-            </article>
-
-            <!-- IPO -->
-            <article class="comp-card">
-                <div class="comp-logo">
-                    <div class="comp-logo-placeholder"></div>
-                </div>
-                <h3 class="comp-title">الأوليمبياد الدولي للفلسفة</h3>
-                <div class="comp-acronym">(IPO)</div>
-                <p class="comp-text">
-                    مسابقة عالمية تشجع الطلبة على التفكير النقدي والكتابة الفلسفية،
-                    من خلال معالجة أسئلة كبرى تتعلق بالمعرفة، القيم، والإنسان والمجتمع.
-                </p>
-                <div class="comp-footer">
-                    <span>قراءة المزيد عن المسابقة</span>
-                    <span class="icon">›</span>
-                </div>
-            </article>
+            <?php endif; ?>
         </div>
     </div>
 </section>
 
 <!-- Why -->
-<section id="about" class="section">
+<section id="about" class="section why-section">
     <div class="container">
         <div class="section-header">
-            <div>
-                <div class="section-title">لماذا بوابة الأوليمبياد العلمية في فلسطين؟</div>
-                <div class="section-subtitle">
-                    تأتي هذه البوابة استجابة للحاجة إلى إطار وطني منظم لإدارة مشاركة الطلبة الفلسطينيين في الأوليمبيادات
-                    العلمية الدولية، وتوفير قنوات تدريب ومرافقة أكاديمية مستدامة.
-                </div>
-            </div>
+            <h2 class="section-title-large">لماذا بوابة الأولمبياد العلمي؟</h2>
+            <p class="section-description">
+                إطار شامل لإدارة المشاركة في الأولمبيادات العلمية الدولية،
+                مع توفير قنوات تدريب مستدامة ودعم أكاديمي متميز.
+            </p>
         </div>
 
-        <div class="why-grid">
-            <article class="why-card">
-                <div class="why-title">منصة موحدة للتسجيل والمتابعة</div>
-                <div class="why-text">
+        <div class="features-grid">
+            <article class="feature-card">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M3 9h18M9 3v18"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">منصة موحدة للتسجيل والمتابعة</h3>
+                <p class="feature-description">
                     واجهة واحدة للتسجيل في جميع المسابقات، متابعة المواعيد، الاطلاع على مواد
-                    التدريب، وإدارة ملفات الطلبة والمدربين والمدارس.
-                </div>
+                    التدريب، وإدارة ملفات الطلبة والمدربين والمدارس بكل سهولة.
+                </p>
+                <ul class="feature-list">
+                    <li>✓ تسجيل سريع لعدة مسابقات</li>
+                    <li>✓ متابعة التقدم بشكل مباشر</li>
+                    <li>✓ إدارة مركزية للوثائق</li>
+                </ul>
             </article>
-            <article class="why-card">
-                <div class="why-title">برامج تدريب وتأهيل وطنية</div>
-                <div class="why-text">
-                    تصميم مخيمات تدريبية، ورش عمل، ودورات أونلاين بإشراف خبراء فلسطينيين وشركاء دوليين،
-                    مع مسارات متدرجة من المبتدئ حتى مستوى الفريق الوطني.
+
+            <article class="feature-card featured">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
                 </div>
+                <h3 class="feature-title">برامج تدريب وتأهيل متقدمة</h3>
+                <p class="feature-description">
+                    مخيمات تدريبية، ورش عمل، ودورات أونلاين بإشراف خبراء متخصصين وشركاء دوليين،
+                    مع مسارات متدرجة من المبتدئ حتى مستوى الفريق المتقدم.
+                </p>
+                <ul class="feature-list">
+                    <li>✓ جلسات تدريبية من الخبراء</li>
+                    <li>✓ مسارات تعليمية منظمة</li>
+                    <li>✓ تعاون دولي مميز</li>
+                </ul>
             </article>
-            <article class="why-card">
-                <div class="why-title">تمثيل فلسطيني منظم في المحافل الدولية</div>
-                <div class="why-text">
-                    اختيار الفرق الوطنية بطريقة شفافة ومنظمة، وضمان استمرارية المشاركة الفلسطينية
-                    في الأوليمبيادات العلمية وفق معايير دولية واضحة.
+
+            <article class="feature-card">
+                <div class="feature-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
                 </div>
+                <h3 class="feature-title">تمثيل دولي منظم</h3>
+                <p class="feature-description">
+                    اختيار شفاف للفرق يضمن استمرارية المشاركة في الأولمبيادات
+                    العلمية وفق معايير دولية واضحة ومهنية.
+                </p>
+                <ul class="feature-list">
+                    <li>✓ عملية اختيار عادلة وشفافة</li>
+                    <li>✓ مشاركة دولية مستمرة</li>
+                    <li>✓ تتبع الأداء والتحليلات</li>
+                </ul>
             </article>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-showcase">
+            <div class="stat-item">
+                <div class="stat-number">+500</div>
+                <div class="stat-label">طالب وطالبة</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">6</div>
+                <div class="stat-label">مسابقات دولية</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">+80</div>
+                <div class="stat-label">مدرسة شريكة</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">دعم فني مستمر</div>
+            </div>
         </div>
     </div>
 </section>
@@ -258,9 +261,9 @@
             </article>
             <article class="step">
                 <div class="step-number">٤</div>
-                <div class="step-title">المنافسة على المقاعد الوطنية</div>
+                <div class="step-title">المنافسة على المقاعد</div>
                 <div class="step-text">
-                    اجتياز الاختبارات التأهيلية واختيار أفضل الطلبة لتمثيل فلسطين في الفرق الوطنية
+                    اجتياز الاختبارات التأهيلية واختيار أفضل الطلبة للتمثيل في الفرق
                     لكل أوليمبياد، والمشاركة في النهائيات الدولية.
                 </div>
             </article>
