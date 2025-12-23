@@ -1757,6 +1757,17 @@ footer::before {
         gap: 30px;
     }
     
+    .hero-slider-container {
+        order: -1;
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    .hero-slider {
+        display: block !important;
+        min-height: 300px;
+    }
+    
     .competitions-grid,
     .why-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
