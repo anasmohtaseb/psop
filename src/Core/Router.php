@@ -71,11 +71,17 @@ class Router
      */
     public function dispatch(string $requestMethod, string $requestUri): void
     {
-        // Remove query string and base path
+        // Remove query string
         $uri = parse_url($requestUri, PHP_URL_PATH);
         
-        // Remove base path from URI (e.g., /psop/public/)
-        $uri = preg_replace('#^/[^/]+/public#', '', $uri);
+        // Get base path from config (e.g., /psop or empty for root)
+        $basePath = parse_url($this->config['app']['base_url'], PHP_URL_PATH) ?? '';
+        $basePath = rtrim($basePath, '/');
+        
+        // Remove base path from URI if it exists
+        if (!empty($basePath) && strpos($uri, $basePath) === 0) {
+            $uri = substr($uri, strlen($basePath));
+        }
         
         // Ensure leading slash
         if (empty($uri) || $uri[0] !== '/') {

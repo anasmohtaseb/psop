@@ -96,7 +96,40 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Sticky Header Effect
+    initStickyHeader();
 });
+
+// ====================================
+// Sticky Header on Scroll
+// ====================================
+function initStickyHeader() {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    let ticking = false;
+
+    function updateHeader() {
+        const currentScroll = window.pageYOffset;
+
+        // Add scrolled class for styling
+        if (currentScroll > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    });
+}
 
 // Hero Slider Functionality
 let currentSlide = 0;
@@ -225,73 +258,4 @@ document.addEventListener('DOMContentLoaded', () => {
     statNumbers.forEach(stat => {
         counterObserver.observe(stat);
     });
-    
-    // Initialize parallax effects
-    initParallaxEffects();
 });
-
-// ====================================
-// Parallax Effects
-// ====================================
-function initParallaxEffects() {
-    let ticking = false;
-    let scrollPosition = 0;
-
-    function updateParallax() {
-        // Hero section parallax
-        const hero = document.querySelector('.hero');
-        if (hero) {
-            const heroContent = hero.querySelector('.hero-grid > div:first-child');
-            const heroSlider = hero.querySelector('.hero-slider-container');
-            
-            if (heroContent && scrollPosition < window.innerHeight) {
-                const offset = scrollPosition * 0.4;
-                heroContent.style.transform = `translateY(${offset}px)`;
-            }
-            
-            if (heroSlider && scrollPosition < window.innerHeight) {
-                const offset = scrollPosition * 0.2;
-                heroSlider.style.transform = `translateY(${offset}px)`;
-            }
-        }
-
-        // Sections parallax effect
-        const sections = document.querySelectorAll('.section');
-        sections.forEach((section, index) => {
-            const rect = section.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const speed = index % 2 === 0 ? 0.15 : 0.1;
-                const offset = (window.innerHeight - rect.top) * speed;
-                section.style.transform = `translateY(-${offset}px)`;
-            }
-        });
-
-        // Cards floating effect
-        const cards = document.querySelectorAll('.comp-card, .feature-card');
-        cards.forEach((card, index) => {
-            const rect = card.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const speed = (index % 2 === 0) ? 0.05 : 0.03;
-                const offset = (window.innerHeight - rect.top) * speed;
-                card.style.transform = `translateY(-${offset}px)`;
-            }
-        });
-
-        ticking = false;
-    }
-
-    function requestTick() {
-        if (!ticking) {
-            requestAnimationFrame(updateParallax);
-            ticking = true;
-        }
-    }
-
-    window.addEventListener('scroll', () => {
-        scrollPosition = window.pageYOffset;
-        requestTick();
-    });
-
-    // Initial call
-    updateParallax();
-}

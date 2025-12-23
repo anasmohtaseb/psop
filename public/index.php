@@ -38,6 +38,7 @@ $router = new App\Core\Router($config);
 $router->get('/', 'HomeController', 'index');
 $router->get('/about', 'HomeController', 'about');
 $router->get('/contact', 'HomeController', 'contact');
+$router->post('/contact/send', 'HomeController', 'sendContact');
 
 // Authentication routes
 $router->get('/login', 'AuthController', 'showLogin');

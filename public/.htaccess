@@ -4,7 +4,6 @@ Options -Indexes
 # Enable rewrite engine
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /psop/public/
     
     # Route all requests to index.php
     RewriteCond %{REQUEST_FILENAME} !-f
