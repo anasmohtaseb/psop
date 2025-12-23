@@ -1703,8 +1703,9 @@ footer::before {
     }
     
     .hero-slider-container {
-        max-width: 500px;
-        margin: 0 auto;
+        /* max-width: 500px; */
+        /* margin: 0 auto; */
+        width: 100%;
     }
     
     .hero-slider {
