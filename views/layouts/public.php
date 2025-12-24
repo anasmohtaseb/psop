@@ -71,17 +71,23 @@
             <div class="footer-grid">
                 <!-- About Section -->
                 <div class="footer-col">
-                    <div class="footer-logo">
-                        <div class="footer-logo-icon">
-                            <div class="footer-logo-inner"></div>
-                        </div>
+                    <div class="footer-logo" style="flex-direction: column; align-items: center; gap: 16px; text-align: center;">
+                        <?php if (!empty($site_settings['site_logo'])): ?>
+                            <img src="<?= $this->url($site_settings['site_logo']) ?>" 
+                                 alt="<?= $this->e($site_settings['site_name_ar'] ?? 'الأولمبياد العلمي') ?>" 
+                                 style="max-height: 80px; width: auto; object-fit: contain;">
+                        <?php else: ?>
+                            <div class="footer-logo-icon" style="margin: 0 auto;">
+                                <div class="footer-logo-inner"></div>
+                            </div>
+                        <?php endif; ?>
                         <div>
-                            <h3 class="footer-brand-title">بوابة الأولمبياد العلمية</h3>
+                            <h3 class="footer-brand-title"><?= $this->e($site_settings['site_name_ar'] ?? 'بوابة الأولمبياد العلمية') ?></h3>
                             <p class="footer-brand-subtitle">في فلسطين</p>
                         </div>
                     </div>
-                    <p class="footer-description">
-                        منصة وطنية موحدة للمسابقات العلمية الدولية، تهدف لاكتشاف ورعاية المواهب الفلسطينية.
+                    <p class="footer-description" style="text-align: center;">
+                        <?= $this->e($site_settings['site_description'] ?? 'منصة وطنية موحدة للمسابقات العلمية الدولية، تهدف لاكتشاف ورعاية المواهب الفلسطينية.') ?>
                     </p>
                 </div>
 
