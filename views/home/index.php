@@ -83,13 +83,6 @@
 <section id="competitions" class="section">
     <div class="container">
         <div class="section-header-pro">
-            <div class="section-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-                المسابقات الدولية
-            </div>
             <h2 class="section-title-pro">استكشف أبرز الأولمبيادات العلمية العالمية</h2>
             <p class="section-description-pro">
                 تضم البوابة مجموعة من أهم الأوليمبيادات العلمية المعترف بها عالمياً في مجالات الرياضيات والمعلوماتية والذكاء الاصطناعي والبرمجة
@@ -134,14 +127,6 @@
 <section id="about" class="section why-section">
     <div class="container">
         <div class="section-header-pro">
-            <div class="section-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                لماذا تختارنا
-            </div>
             <h2 class="section-title-pro">بوابتك نحو التميز العلمي العالمي</h2>
             <p class="section-description-pro">
                 إطار شامل لإدارة المشاركة في الأولمبيادات العلمية الدولية مع توفير قنوات تدريب مستدامة ودعم أكاديمي متميز
@@ -233,12 +218,6 @@
 <section id="join" class="section">
     <div class="container">
         <div class="section-header-pro">
-            <div class="section-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                </svg>
-                رحلة الانضمام
-            </div>
             <h2 class="section-title-pro">ابدأ رحلتك العلمية في 4 خطوات بسيطة</h2>
             <p class="section-description-pro">
                 عملية تسجيل سهلة ومنظمة تضمن انضمامك إلى منظومة الأولمبيادات العلمية مع متابعة دقيقة ودعم مستمر
@@ -286,12 +265,6 @@
 <section id="contact" class="section">
     <div class="container">
         <div class="section-header-pro">
-            <div class="section-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-                </svg>
-                تواصل معنا
-            </div>
             <h2 class="section-title-pro">نحن هنا لدعمكم في كل خطوة</h2>
             <p class="section-description-pro">
                 للشراكات أو اعتماد مدارسكم كمراكز تدريب أو الاستفسار عن آليات المشاركة، نحن دائماً في الخدمة
@@ -299,16 +272,21 @@
         </div>
         
         <div style="text-align: center; margin-top: 40px;">
-            <div style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 40px; background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <div style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 40px; background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 24px;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                     <polyline points="22,6 12,13 2,6"/>
                 </svg>
                 <a href="mailto:info@psop.ps" style="color: var(--primary); font-weight: 600; font-size: 18px; text-decoration: none;">info@psop.ps</a>
             </div>
-            <p style="color: var(--text-muted); margin-top: 24px; font-size: 14px;">
-                سيتم قريباً إتاحة نموذج تواصل مباشر داخل البوابة
-            </p>
+            <div>
+                <a href="<?= $this->url('/contact') ?>" class="btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; text-decoration: none;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    إرسال رسالة
+                </a>
+            </div>
         </div>
     </div>
 </section>
