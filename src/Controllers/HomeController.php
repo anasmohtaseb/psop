@@ -28,9 +28,9 @@ class HomeController extends Controller
         $announcements = $announcementModel->findPublished('all');
         $heroSlides = $slideModel->getActiveSlides();
         $siteSettings = $settingModel->getAllAsArray();
-        // recent images for homepage gallery
+        // featured images for homepage gallery
         $imageModel = new \App\Models\CompetitionImage($this->config);
-        $recentImages = $imageModel->findRecent(8);
+        $recentImages = $imageModel->findFeatured(8);
         
         $this->render('home/index', [
             'active_competitions' => $activeCompetitions,
