@@ -125,6 +125,53 @@
     </div>
 </section>
 
+<!-- Recent Competition Photos -->
+<?php if (!empty($recent_competition_images)): ?>
+<section id="home-gallery" class="section" style="padding-top: 20px; padding-bottom: 36px;">
+    <div class="container">
+        <div class="section-header-pro">
+            <h2 class="section-title-pro">صور من مسابقاتنا</h2>
+            <p class="section-description-pro">اكتشف لحظات من المشاركات، تدريبات الفرق، والفعاليات الخاصة بكل مسابقة.</p>
+        </div>
+
+        <div style="max-width:1100px;margin:18px auto 0 auto;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;">
+                <?php foreach ($recent_competition_images as $idx => $img): ?>
+                    <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.08);cursor:pointer;" onclick="openHomeGallery(<?= $idx ?>)">
+                        <img src="<?= $this->asset($img['image_path']) ?>" alt="<?= $this->e($img['competition_name'] ?? '') ?>" style="width:100%;height:120px;object-fit:cover;display:block;">
+                        <div style="padding:8px;background:#fff;text-align:right;font-size:13px;color:#333;">
+                            <?= $this->e($img['competition_name'] ?? '') ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="home-gallery-lightbox" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;">
+        <button onclick="closeHomeGallery()" style="position:absolute;top:24px;right:28px;font-size:34px;color:#fff;background:none;border:none;cursor:pointer;">&times;</button>
+        <button onclick="homePrev(event)" style="position:absolute;left:18px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.06);border:none;color:#fff;font-size:28px;">&#8249;</button>
+        <button onclick="homeNext(event)" style="position:absolute;right:18px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.06);border:none;color:#fff;font-size:28px;">&#8250;</button>
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;">
+            <img id="home-gallery-img" src="" style="max-width:92vw;max-height:78vh;border-radius:12px;box-shadow:0 12px 48px rgba(0,0,0,0.6);">
+            <div id="home-gallery-caption" style="color:#fff;margin-top:14px;font-size:16px;text-align:center;"></div>
+        </div>
+    </div>
+
+    <script>
+    const homeImages = <?php echo json_encode(array_map(function($i){ return [$i['image_path'], $i['competition_name'] ?? ''];}, $recent_competition_images)); ?>;
+    let homeIdx = 0;
+    function openHomeGallery(i) { homeIdx = i; showHomeImg(); document.getElementById('home-gallery-lightbox').style.display='flex'; document.body.style.overflow='hidden'; }
+    function closeHomeGallery(){ document.getElementById('home-gallery-lightbox').style.display='none'; document.body.style.overflow=''; }
+    function showHomeImg(){ let [src, cap] = homeImages[homeIdx]; document.getElementById('home-gallery-img').src = '<?= $this->asset('') ?>' + src.replace(/^\//,''); document.getElementById('home-gallery-caption').innerText = cap || ''; }
+    function homePrev(e){ e.stopPropagation(); homeIdx = (homeIdx-1+homeImages.length)%homeImages.length; showHomeImg(); }
+    function homeNext(e){ e.stopPropagation(); homeIdx = (homeIdx+1)%homeImages.length; showHomeImg(); }
+    document.getElementById('home-gallery-lightbox').addEventListener('click', function(e){ if(e.target===this) closeHomeGallery(); });
+    document.addEventListener('keydown', function(e){ if(document.getElementById('home-gallery-lightbox').style.display==='flex'){ if(e.key==='Escape') closeHomeGallery(); if(e.key==='ArrowLeft') homePrev(e); if(e.key==='ArrowRight') homeNext(e); }});
+    </script>
+</section>
+<?php endif; ?>
+
 <!-- Why -->
 <section id="about" class="section why-section">
     <div class="container">
