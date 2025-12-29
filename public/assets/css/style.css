@@ -29,7 +29,7 @@ html, body {
 }
 
 body {
-    font-family: 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif;
+    font-family: 'Almarai', system-ui, -apple-system, sans-serif;
     line-height: 1.7;
     color: var(--text-main);
     direction: rtl;
@@ -778,10 +778,24 @@ section {
 
 .section-title {
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--text-main);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     text-align: center;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    height: 6px;
+    width: 64px;
+    margin: 8px auto 0 auto;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--primary), #f97316);
+    box-shadow: 0 6px 18px rgba(225,29,72,0.12);
 }
 
 .section-subtitle {
@@ -2095,10 +2109,23 @@ footer::before {
 }
 
 .section-title-large {
-    font-size: 36px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 900;
     color: var(--text-main);
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.section-title-large::after {
+    content: '';
+    display: block;
+    height: 8px;
+    width: 90px;
+    margin: 10px auto 0 auto;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--primary), #f97316);
+    box-shadow: 0 8px 28px rgba(225,29,72,0.12);
     line-height: 1.3;
     text-align: center;
     background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
