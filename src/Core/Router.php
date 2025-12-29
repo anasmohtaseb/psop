@@ -116,7 +116,9 @@ class Router
                 }
                 
                 // Call the controller action with parameters
-                call_user_func_array([$controller, $action], $params);
+                // Use positional parameters (array_values) to avoid PHP named-parameter mismatches
+                $args = array_values($params);
+                call_user_func_array([$controller, $action], $args);
                 return;
             }
         }
