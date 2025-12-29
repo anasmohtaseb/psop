@@ -217,18 +217,39 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($subscription['status'] === 'pending'): ?>
-                                    <form method="POST" action="<?= $this->url('/admin/subscriptions/activate') ?>" 
-                                          style="display: inline;" 
-                                          onsubmit="return confirm('هل أنت متأكد من تفعيل هذا الاشتراك؟')">
-                                        <input type="hidden" name="_csrf_token" value="<?= $this->getCsrfToken() ?>">
-                                        <input type="hidden" name="subscription_id" value="<?= $subscription['id'] ?>">
-                                        <button type="submit" class="btn btn-sm btn-success">
-                                            <i class="bi bi-check-circle me-1"></i>
-                                            تفعيل
-                                        </button>
-                                    </form>
-                                    <?php endif; ?>
+                                    <div class="btn-group" role="group">
+                                        <a href="<?= $this->url('/admin/subscriptions/edit/' . $subscription['id']) ?>" 
+                                           class="btn btn-sm btn-info">
+                                            <i class="bi bi-pencil me-1"></i>
+                                            تعديل
+                                        </a>
+                                        
+                                        <?php if ($subscription['status'] === 'pending'): ?>
+                                        <form method="POST" action="<?= $this->url('/admin/subscriptions/activate') ?>" 
+                                              style="display: inline;" 
+                                              onsubmit="return confirm('هل أنت متأكد من تفعيل هذا الاشتراك؟')">
+                                            <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                            <input type="hidden" name="subscription_id" value="<?= $subscription['id'] ?>">
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                تفعيل
+                                            </button>
+                                        </form>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($subscription['status'] === 'active'): ?>
+                                        <form method="POST" action="<?= $this->url('/admin/subscriptions/cancel') ?>" 
+                                              style="display: inline;" 
+                                              onsubmit="return confirm('هل أنت متأكد من إلغاء هذا الاشتراك؟')">
+                                            <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                            <input type="hidden" name="subscription_id" value="<?= $subscription['id'] ?>">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-x-circle me-1"></i>
+                                                إلغاء
+                                            </button>
+                                        </form>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

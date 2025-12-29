@@ -90,26 +90,28 @@
         <div class="cards-grid">
             <?php if (!empty($active_competitions)): ?>
                 <?php foreach ($active_competitions as $competition): ?>
-                    <article class="comp-card">
-                        <div class="comp-logo">
-                            <?php if (!empty($competition['logo_path'])): ?>
-                                <img src="<?= $this->asset($competition['logo_path']) ?>" 
-                                     alt="<?= $this->e($competition['name_ar']) ?>"
-                                     style="width: 100%; height: 100%; object-fit: contain;">
-                            <?php else: ?>
-                                <div class="comp-logo-placeholder"></div>
-                            <?php endif; ?>
-                        </div>
-                        <h3 class="comp-title"><?= $this->e($competition['name_ar']) ?></h3>
-                        <div class="comp-acronym">(<?= $this->e($competition['code']) ?>)</div>
-                        <p class="comp-text">
-                            <?= $this->e($competition['description_ar'] ?? $competition['description_en'] ?? 'International competition') ?>
-                        </p>
-                        <div class="comp-footer">
-                            <span>Read more about this competition</span>
-                            <span class="icon">›</span>
-                        </div>
-                    </article>
+                    <a href="<?= $this->url('/competitions/' . $competition['id']) ?>" style="text-decoration: none; color: inherit;">
+                        <article class="comp-card">
+                            <div class="comp-logo">
+                                <?php if (!empty($competition['logo_path'])): ?>
+                                    <img src="<?= $this->asset($competition['logo_path']) ?>" 
+                                         alt="<?= $this->e($competition['name_ar']) ?>"
+                                         style="width: 100%; height: 100%; object-fit: contain;">
+                                <?php else: ?>
+                                    <div class="comp-logo-placeholder"></div>
+                                <?php endif; ?>
+                            </div>
+                            <h3 class="comp-title"><?= $this->e($competition['name_ar']) ?></h3>
+                            <div class="comp-acronym">(<?= $this->e($competition['code']) ?>)</div>
+                            <p class="comp-text">
+                                <?= $this->e($competition['description_ar'] ?? $competition['description_en'] ?? 'International competition') ?>
+                            </p>
+                            <div class="comp-footer">
+                                <span>Read more about this competition</span>
+                                <span class="icon">›</span>
+                            </div>
+                        </article>
+                    </a>
                 <?php endforeach; ?>
             <?php else: ?>
                 <!-- Default message if no competitions -->

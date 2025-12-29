@@ -252,6 +252,112 @@ class SubscriptionController extends Controller
     }
 
     /**
+     * Admin: Edit subscription form
+     */
+    public function adminEdit($id): void
+    {
+        $this->requireRole('admin');
+        
+        $subscriptionId = (int) $id;
+        $subscription = $this->subscriptionModel->findById($subscriptionId);
+        
+        if (!$subscription) {
+            $this->setFlash('error', 'الاشتراك غير موجود');
+            $this->redirect('/admin/subscriptions');
+            return;
+        }
+        
+        // Get user info
+        $userModel = new \App\Models\User($this->config);
+        $user = $userModel->findById((int) $subscription['user_id']);
+        
+        // Get plan info
+        $plan = $this->planModel->findById((int) $subscription['plan_id']);
+        
+        // Get all plans for dropdown
+        $plans = $this->planModel->findAll();
+        
+        $this->render('admin/subscriptions/edit', [
+            'subscription' => $subscription,
+            'user' => $user,
+            'plan' => $plan,
+            'plans' => $plans
+        ], 'dashboard');
+    }
+
+    /**
+     * Admin: Update subscription
+     */
+    public function adminUpdate(): void
+    {
+        $this->requireRole('admin');
+        $this->validateCsrfToken();
+        
+        $subscriptionId = (int) ($_POST['subscription_id'] ?? 0);
+        
+        $subscription = $this->subscriptionModel->findById($subscriptionId);
+        
+        if (!$subscription) {
+            $this->setFlash('error', 'الاشتراك غير موجود');
+            $this->redirect('/admin/subscriptions');
+            return;
+        }
+        
+        $updateData = [
+            'status' => $_POST['status'] ?? $subscription['status'],
+            'payment_status' => $_POST['payment_status'] ?? $subscription['payment_status'],
+            'start_date' => $_POST['start_date'] ?? $subscription['start_date'],
+            'end_date' => $_POST['end_date'] ?? $subscription['end_date']
+        ];
+        
+        // Update payment date if status changed to paid
+        if ($_POST['payment_status'] === 'paid' && $subscription['payment_status'] !== 'paid') {
+            $updateData['payment_date'] = date('Y-m-d H:i:s');
+        }
+        
+        $success = $this->subscriptionModel->update($subscriptionId, $updateData);
+        
+        if ($success) {
+            $this->setFlash('success', 'تم تحديث الاشتراك بنجاح');
+        } else {
+            $this->setFlash('error', 'حدث خطأ أثناء تحديث الاشتراك');
+        }
+        
+        $this->redirect('/admin/subscriptions');
+    }
+
+    /**
+     * Admin: Cancel subscription manually
+     */
+    public function adminCancel(): void
+    {
+        $this->requireRole('admin');
+        $this->validateCsrfToken();
+        
+        $subscriptionId = (int) ($_POST['subscription_id'] ?? 0);
+        
+        $subscription = $this->subscriptionModel->findById($subscriptionId);
+        
+        if (!$subscription) {
+            $this->setFlash('error', 'الاشتراك غير موجود');
+            $this->redirect('/admin/subscriptions');
+            return;
+        }
+        
+        $success = $this->subscriptionModel->update($subscriptionId, [
+            'status' => 'cancelled'
+        ]);
+        
+        if ($success) {
+            $this->setFlash('success', 'تم إلغاء الاشتراك بنجاح');
+        } else {
+            $this->setFlash('error', 'حدث خطأ أثناء إلغاء الاشتراك');
+        }
+        
+        $this->redirect('/admin/subscriptions');
+    }
+
+    /**
      * Admin: Manage subscription plans
      */
     public function adminPlans(): void

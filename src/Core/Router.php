@@ -62,7 +62,10 @@ class Router
      */
     private function convertPathToPattern(string $path): string
     {
-        $pattern = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $path);
+        // Escape special regex characters except for {} which we'll replace
+        $pattern = preg_quote($path, '#');
+        // Now replace the escaped placeholders with regex patterns
+        $pattern = preg_replace('/\\\{(\w+)\\\}/', '(?P<$1>[^/]+)', $pattern);
         return '#^' . $pattern . '$#';
     }
 

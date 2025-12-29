@@ -23,6 +23,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // Load configuration
 $config = require __DIR__ . '/../config/config.php';
 
+// Load activity logger helper
+require_once __DIR__ . '/../src/Core/ActivityLogger.php';
+
 // Set error display based on debug mode
 if ($config['app']['debug']) {
     ini_set('display_errors', '1');
@@ -99,13 +102,37 @@ $router->get('/subscriptions/my-subscription', 'SubscriptionController', 'mySubs
 
 // Admin subscription routes
 $router->get('/admin/subscriptions', 'SubscriptionController', 'adminList');
+$router->get('/admin/subscriptions/edit/{id}', 'SubscriptionController', 'adminEdit');
+$router->post('/admin/subscriptions/update', 'SubscriptionController', 'adminUpdate');
 $router->post('/admin/subscriptions/activate', 'SubscriptionController', 'adminActivate');
+$router->post('/admin/subscriptions/cancel', 'SubscriptionController', 'adminCancel');
 $router->get('/admin/subscriptions/plans', 'SubscriptionController', 'adminPlans');
 $router->get('/admin/subscriptions/plans/create', 'SubscriptionController', 'adminCreatePlan');
 $router->post('/admin/subscriptions/plans/store', 'SubscriptionController', 'adminStorePlan');
 $router->get('/admin/subscriptions/plans/{planId}/edit', 'SubscriptionController', 'adminEditPlan');
 $router->post('/admin/subscriptions/plans/update', 'SubscriptionController', 'adminUpdatePlan');
 $router->post('/admin/subscriptions/plans/delete', 'SubscriptionController', 'adminDeletePlan');
+
+// Activity Log routes
+$router->get('/admin/activity-logs', 'ActivityLogController', 'index');
+$router->get('/admin/activity-logs/export', 'ActivityLogController', 'export');
+$router->get('/admin/activity-logs/user/{userId}', 'ActivityLogController', 'userActivity');
+$router->get('/admin/activity-logs/entity/{entityType}/{entityId}', 'ActivityLogController', 'entityActivity');
+
+// API Routes v1
+$router->get('/api/v1/competitions', 'Api\CompetitionApiController', 'index');
+$router->get('/api/v1/competitions/{id}', 'Api\CompetitionApiController', 'show');
+$router->post('/api/v1/competitions', 'Api\CompetitionApiController', 'create');
+$router->any('/api/v1/competitions/{id}', 'Api\CompetitionApiController', 'update'); // PUT via any()
+$router->any('/api/v1/competitions/{id}/delete', 'Api\CompetitionApiController', 'delete'); // DELETE
+
+$router->get('/api/v1/users', 'Api\UserApiController', 'index');
+$router->get('/api/v1/users/{id}', 'Api\UserApiController', 'show');
+$router->post('/api/v1/auth/register', 'Api\UserApiController', 'register');
+$router->post('/api/v1/auth/login', 'Api\UserApiController', 'login');
+
+// Swagger Documentation
+$router->get('/api/docs', 'SwaggerController', 'index');
 
 // Admin page management routes
 $router->get('/admin/pages', 'Admin\PageController', 'index');

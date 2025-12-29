@@ -1,0 +1,529 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Palestine Science Olympiad Portal API",
+        "description": "RESTful API for managing science olympiad competitions, registrations, and users",
+        "contact": {
+            "name": "PSOP Support",
+            "email": "info@psop.ps"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:82/psop/api/v1",
+            "description": "Local Development Server"
+        },
+        {
+            "url": "https://psop.ps/api/v1",
+            "description": "Production Server"
+        }
+    ],
+    "paths": {
+        "/competitions": {
+            "get": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Get all competitions",
+                "description": "Returns list of all active competitions",
+                "operationId": "f6fe99e5239c83221bef1f4fef724c8c",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter by category",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "mathematics",
+                                "informatics",
+                                "physics",
+                                "chemistry",
+                                "biology",
+                                "ai",
+                                "cybersecurity"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "description": "Filter by active status",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name_ar": {
+                                                        "type": "string"
+                                                    },
+                                                    "name_en": {
+                                                        "type": "string"
+                                                    },
+                                                    "code": {
+                                                        "type": "string"
+                                                    },
+                                                    "category": {
+                                                        "type": "string"
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Create new competition",
+                "description": "Create a new competition (Admin only)",
+                "operationId": "b6511b62ec1fd3bcf8b0c91ad1c64679",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name_ar",
+                                    "name_en",
+                                    "code",
+                                    "category"
+                                ],
+                                "properties": {
+                                    "name_ar": {
+                                        "type": "string",
+                                        "example": "الأولمبياد الدولي للرياضيات"
+                                    },
+                                    "name_en": {
+                                        "type": "string",
+                                        "example": "International Mathematical Olympiad"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "IMO"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "example": "mathematics"
+                                    },
+                                    "description_ar": {
+                                        "type": "string"
+                                    },
+                                    "description_en": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Competition created successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/competitions/{id}": {
+            "get": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Get competition by ID",
+                "description": "Returns a single competition",
+                "operationId": "8532a4e433f4aa7e55128312fbea8699",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Competition ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Competition not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Update competition",
+                "description": "Update an existing competition (Admin only)",
+                "operationId": "1848680af8af8aebcf98960740a1a3bb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Competition ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name_ar": {
+                                        "type": "string"
+                                    },
+                                    "name_en": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Competition updated successfully"
+                    },
+                    "404": {
+                        "description": "Competition not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Delete competition",
+                "description": "Delete a competition (Admin only)",
+                "operationId": "a6dd554ffe7d4e285f3cb62eec430dd5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Competition ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Competition deleted successfully"
+                    },
+                    "404": {
+                        "description": "Competition not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Returns list of users (Admin only)",
+                "operationId": "b1a6ae00ff2ab2c5a5e7153bb83290af",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Filter by user type",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "student",
+                                "admin",
+                                "school_coordinator",
+                                "trainer"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "active",
+                                "inactive",
+                                "pending"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user by ID",
+                "description": "Returns a single user",
+                "operationId": "f9adfaf9a5a4ef9f2c81bced4de6d46f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register new user",
+                "description": "Register a new student user",
+                "operationId": "e46ef2ca14e3a8ba41266ae43ec81991",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "أحمد محمد"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "ahmad@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "0599123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login",
+                "description": "Authenticate user and return token",
+                "operationId": "837052e4e6b6a336034f7c6f3720c6c0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Competitions",
+            "description": "Competitions"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        }
+    ]
+}
