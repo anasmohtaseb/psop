@@ -102,22 +102,27 @@
                     <li><a href="<?= $this->url('/admin/subscriptions') ?>"><span>💳</span> الاشتراكات</a></li>
                     <li><a href="<?= $this->url('/admin/subscriptions/plans') ?>"><span>📊</span> خطط الاشتراك</a></li>
                     <li><a href="<?= $this->url('/admin/announcements') ?>"><span>📢</span> الإعلانات</a></li>
+                    <li><a href="<?= $this->url('/admin/activity-logs') ?>"><span>📈</span> سجل النشاطات</a></li>
                     
-                    <!-- Settings Dropdown -->
+                    <!-- Content Management Dropdown -->
                     <li class="sidebar-dropdown">
-                        <button class="sidebar-dropdown-toggle" onclick="toggleSettingsMenu(event)">
+                        <button class="sidebar-dropdown-toggle" onclick="toggleContentMenu(event)">
                             <span class="dropdown-content">
-                                <span class="dropdown-icon">⚙️</span>
-                                <span>Settings</span>
+                                <span class="dropdown-icon">📝</span>
+                                <span>إدارة المحتوى</span>
                             </span>
                             <span class="dropdown-arrow">▼</span>
                         </button>
                         <ul class="sidebar-submenu">
-                            <li><a href="<?= $this->url('/admin/settings') ?>"><span>🔧</span> Site Settings</a></li>
-                            <li><a href="<?= $this->url('/admin/pages') ?>"><span>📄</span> Manage Pages</a></li>
-                            <li><a href="<?= $this->url('/admin/slider') ?>"><span>🖼️</span> Hero Slider</a></li>
+                            <li><a href="<?= $this->url('/admin/hero') ?>"><span>🎯</span> محتوى Hero Section</a></li>
+                            <li><a href="<?= $this->url('/admin/slider') ?>"><span>🖼️</span> سلايدر الصفحة الرئيسية</a></li>
+                            <li><a href="<?= $this->url('/admin/pages') ?>"><span>📄</span> إدارة الصفحات</a></li>
+                            <li><a href="<?= $this->url('/admin/settings') ?>"><span>⚙️</span> إعدادات الموقع</a></li>
                         </ul>
                     </li>
+                    
+                    <!-- API Documentation -->
+                    <li><a href="<?= $this->url('/api/docs') ?>" target="_blank"><span>🔌</span> توثيق API</a></li>
                 <?php endif; ?>
             </ul>
         </aside>
@@ -158,6 +163,26 @@
         
         // Settings dropdown toggle
         function toggleSettingsMenu(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const button = event.currentTarget;
+            const submenu = button.nextElementSibling;
+            const arrow = button.querySelector('.dropdown-arrow');
+            
+            // Toggle active class
+            button.classList.toggle('active');
+            submenu.classList.toggle('active');
+            
+            // Rotate arrow
+            if (submenu.classList.contains('active')) {
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        // Content dropdown toggle
+        function toggleContentMenu(event) {
             event.preventDefault();
             event.stopPropagation();
             const button = event.currentTarget;

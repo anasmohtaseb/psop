@@ -98,25 +98,43 @@
             </div>
 
             <!-- Arabic Description -->
+
+            <!-- Short Description (Arabic) -->
             <div class="form-group">
                 <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">
-                    الوصف بالعربية
+                    الوصف المختصر بالعربية
                 </label>
                 <textarea name="description_ar" 
-                          rows="4"
+                          rows="3"
                           style="width: 100%; padding: 12px 16px; border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 12px; font-size: 15px; resize: vertical;"
-                          placeholder="وصف تفصيلي للمسابقة..."><?= $this->e($_SESSION['old']['description_ar'] ?? '') ?></textarea>
+                          placeholder="وصف مختصر للمسابقة..."><?= $this->e($_SESSION['old']['description_ar'] ?? '') ?></textarea>
             </div>
 
-            <!-- English Description -->
+            <!-- Short Description (English) -->
             <div class="form-group">
                 <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">
-                    الوصف بالإنجليزية
+                    الوصف المختصر بالإنجليزية
                 </label>
                 <textarea name="description_en" 
-                          rows="4"
+                          rows="3"
                           style="width: 100%; padding: 12px 16px; border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 12px; font-size: 15px; resize: vertical;"
-                          placeholder="Detailed description..."><?= $this->e($_SESSION['old']['description_en'] ?? '') ?></textarea>
+                          placeholder="Short description..."><?= $this->e($_SESSION['old']['description_en'] ?? '') ?></textarea>
+            </div>
+
+            <!-- Long Description (Arabic) -->
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">
+                    الوصف التفصيلي بالعربية (محرر نصوص)
+                </label>
+                <textarea name="long_description_ar" class="wysiwyg-ar" rows="8"><?= $this->e($_SESSION['old']['long_description_ar'] ?? '') ?></textarea>
+            </div>
+
+            <!-- Long Description (English) -->
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">
+                    الوصف التفصيلي بالإنجليزية (WYSIWYG)
+                </label>
+                <textarea name="long_description_en" class="wysiwyg-en" rows="8"><?= $this->e($_SESSION['old']['long_description_en'] ?? '') ?></textarea>
             </div>
 
             <!-- Active Status -->
@@ -146,24 +164,25 @@
     </form>
 </div>
 
+
 <?php 
 unset($_SESSION['old']);
 unset($_SESSION['errors']);
 ?>
-
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+<script src="<?= $this->asset('js/summernote-loader.js') ?>"></script>
 <script>
 function previewLogo(input) {
     const preview = document.getElementById('logoPreview');
     const image = document.getElementById('logoImage');
-    
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-        
         reader.onload = function(e) {
             image.src = e.target.result;
             preview.style.display = 'block';
         };
-        
         reader.readAsDataURL(input.files[0]);
     }
 }

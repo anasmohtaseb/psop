@@ -15,6 +15,12 @@
             <p style="color: var(--text-muted); font-size: 16px; line-height: 1.8;">
                 <?= $this->e($competition['description_ar'] ?? 'مسابقة علمية دولية') ?>
             </p>
+            <?php if (!empty($competition['long_description_ar'])): ?>
+            <div style="margin-top: 24px; text-align: right; direction: rtl; color: var(--text-main); font-size: 17px; line-height: 2; background: #fff7f7; border-radius: 14px; padding: 24px 20px; box-shadow: 0 2px 12px rgba(225,29,72,0.04);">
+                <?= $competition['long_description_ar'] ?>
+            </div>
+            <?php endif; ?>
+            </p>
         </div>
     </div>
 </div>

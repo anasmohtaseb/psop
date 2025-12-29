@@ -145,6 +145,10 @@ $router->post('/admin/pages/update-stat', 'Admin\PageController', 'updateStat');
 $router->post('/admin/pages/create-stat', 'Admin\PageController', 'createStat');
 $router->post('/admin/pages/delete-stat', 'Admin\PageController', 'deleteStat');
 
+// Admin Hero Section routes
+$router->get('/admin/hero', 'Admin\HeroController', 'index');
+$router->post('/admin/hero/update', 'Admin\HeroController', 'update');
+
 // Admin slider management routes
 $router->get('/admin/slider', 'Admin\SliderController', 'index');
 $router->get('/admin/slider/create', 'Admin\SliderController', 'create');

@@ -105,6 +105,80 @@
     </a>
 </div>
 
+<!-- Hero Section & Content Management -->
+<h2 style="color: var(--text-main); font-size: 22px; margin: 40px 0 20px;">إدارة المحتوى</h2>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px;">
+    <a href="<?= $this->url('/admin/hero') ?>" 
+       class="card" 
+       style="background: white; border-radius: 16px; padding: 24px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; display: block;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                🎯
+            </div>
+            <div>
+                <h3 style="color: var(--text-main); font-size: 18px; margin-bottom: 4px;">محتوى Hero Section</h3>
+                <p style="color: var(--text-muted); font-size: 13px; margin: 0;">النص بجانب السلايدر</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="<?= $this->url('/admin/slider') ?>" 
+       class="card" 
+       style="background: white; border-radius: 16px; padding: 24px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; display: block;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #ec4899, #db2777); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                🖼️
+            </div>
+            <div>
+                <h3 style="color: var(--text-main); font-size: 18px; margin-bottom: 4px;">سلايدر الصفحة الرئيسية</h3>
+                <p style="color: var(--text-muted); font-size: 13px; margin: 0;">إدارة صور Hero Section</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="<?= $this->url('/admin/pages') ?>" 
+       class="card" 
+       style="background: white; border-radius: 16px; padding: 24px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; display: block;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #06b6d4, #0891b2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                📄
+            </div>
+            <div>
+                <h3 style="color: var(--text-main); font-size: 18px; margin-bottom: 4px;">إدارة الصفحات</h3>
+                <p style="color: var(--text-muted); font-size: 13px; margin: 0;">تعديل محتوى الصفحات</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="<?= $this->url('/admin/settings') ?>" 
+       class="card" 
+       style="background: white; border-radius: 16px; padding: 24px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; display: block;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #64748b, #475569); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                ⚙️
+            </div>
+            <div>
+                <h3 style="color: var(--text-main); font-size: 18px; margin-bottom: 4px;">إعدادات الموقع</h3>
+                <p style="color: var(--text-muted); font-size: 13px; margin: 0;">شعار، عنوان، معلومات الاتصال</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="<?= $this->url('/admin/activity-logs') ?>" 
+       class="card" 
+       style="background: white; border-radius: 16px; padding: 24px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; display: block;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                📊
+            </div>
+            <div>
+                <h3 style="color: var(--text-main); font-size: 18px; margin-bottom: 4px;">سجل النشاطات</h3>
+                <p style="color: var(--text-muted); font-size: 13px; margin: 0;">تتبع إجراءات المستخدمين</p>
+            </div>
+        </div>
+    </a>
+</div>
+
 <!-- Recent Activity & System Info -->
 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
     <!-- Recent Registrations -->

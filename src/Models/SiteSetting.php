@@ -80,4 +80,35 @@ class SiteSetting extends BaseModel
         
         return $result;
     }
+    
+    /**
+     * Update or create setting
+     */
+    public function updateOrCreate(
+        string $key, 
+        $value, 
+        string $type = 'text', 
+        string $group = 'general', 
+        string $displayName = '', 
+        int $displayOrder = 99
+    ): bool {
+        $setting = $this->getByKey($key);
+        
+        if ($setting) {
+            // Update existing
+            return $this->update($setting['id'], ['setting_value' => $value]);
+        } else {
+            // Create new
+            $data = [
+                'setting_key' => $key,
+                'setting_value' => $value,
+                'setting_type' => $type,
+                'setting_group' => $group,
+                'display_name_ar' => $displayName,
+                'display_order' => $displayOrder
+            ];
+            
+            return (bool) $this->create($data);
+        }
+    }
 }

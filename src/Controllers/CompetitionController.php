@@ -104,12 +104,13 @@ class CompetitionController extends Controller
                 'category' => $_POST['category'],
                 'description_ar' => $_POST['description_ar'] ?? null,
                 'description_en' => $_POST['description_en'] ?? null,
+                'long_description_ar' => $_POST['long_description_ar'] ?? null,
+                'long_description_en' => $_POST['long_description_en'] ?? null,
                 'logo_path' => $logoPath,
                 'is_active' => isset($_POST['is_active']) ? 1 : 0,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
-            
             $this->setFlash('success', 'تم إضافة المسابقة بنجاح');
             $this->redirect('/admin/competitions');
         } catch (\Exception $e) {
@@ -161,6 +162,8 @@ class CompetitionController extends Controller
             'category' => $_POST['category'],
             'description_ar' => $_POST['description_ar'] ?? null,
             'description_en' => $_POST['description_en'] ?? null,
+            'long_description_ar' => $_POST['long_description_ar'] ?? null,
+            'long_description_en' => $_POST['long_description_en'] ?? null,
             'is_active' => isset($_POST['is_active']) ? 1 : 0,
             'updated_at' => date('Y-m-d H:i:s'),
         ];

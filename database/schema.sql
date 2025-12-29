@@ -92,6 +92,8 @@ CREATE TABLE competitions (
     category ENUM('mathematics', 'informatics', 'physics', 'chemistry', 'biology', 'ai', 'cybersecurity', 'other') NOT NULL,
     description_ar TEXT,
     description_en TEXT,
+    long_description_ar MEDIUMTEXT,
+    long_description_en MEDIUMTEXT,
     is_active TINYINT(1) DEFAULT 1,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,

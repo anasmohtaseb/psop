@@ -6,6 +6,19 @@ namespace App\Models;
 
 /**
  * Competition Model
+ *
+ * @property int $id
+ * @property string $name_ar
+ * @property string $name_en
+ * @property string $code
+ * @property string $category
+ * @property string|null $description_ar
+ * @property string|null $description_en
+ * @property string|null $long_description_ar
+ * @property string|null $long_description_en
+ * @property int $is_active
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Competition extends BaseModel
 {
