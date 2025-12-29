@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+
 
 /**
  * Front Controller - Entry point for all requests
@@ -36,6 +36,11 @@ date_default_timezone_set('Asia/Gaza');
 
 // Initialize router
 $router = new App\Core\Router($config);
+
+$router->post('/admin/competitions/{id}/images/upload', 'Admin\\CompetitionImageController', 'upload');
+$router->post('/admin/competitions/{id}/images/{imageId}/delete', 'Admin\\CompetitionImageController', 'delete');
+$router->post('/admin/competitions/{id}/images/{imageId}/feature', 'Admin\\CompetitionImageController', 'feature');
+$router->get('/admin/competitions/{id}/images', 'Admin\\CompetitionImageController', 'index');
 
 // Public routes
 $router->get('/', 'HomeController', 'index');
