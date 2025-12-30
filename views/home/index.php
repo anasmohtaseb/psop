@@ -135,15 +135,17 @@
         </div>
 
         <div style="max-width:1100px;margin:18px auto 0 auto;">
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;">
-                <?php foreach ($recent_competition_images as $idx => $img): ?>
-                    <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.08);cursor:pointer;" onclick="openHomeGallery(<?= $idx ?>)">
-                        <img src="<?= $this->asset($img['image_path']) ?>" alt="<?= $this->e($img['competition_name'] ?? '') ?>" style="width:100%;height:120px;object-fit:cover;display:block;">
-                        <div style="padding:8px;background:#fff;text-align:right;font-size:13px;color:#333;">
-                            <?= $this->e($img['competition_name'] ?? '') ?>
+            <div class="home-horizontal-gallery">
+                <button class="hscroll-btn prev" aria-label="السابق" onclick="homeScrollPrev()">‹</button>
+                <div class="hscroll" id="homeHScroll" tabindex="0">
+                    <?php foreach ($recent_competition_images as $idx => $img): ?>
+                        <div class="hscroll-item" data-idx="<?= $idx ?>" onclick="openHomeGallery(<?= $idx ?>)">
+                            <img src="<?= $this->asset($img['image_path']) ?>" alt="<?= $this->e($img['competition_name'] ?? '') ?>">
+                            <div class="hscroll-caption"><?= $this->e($img['competition_name'] ?? '') ?></div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+                <button class="hscroll-btn next" aria-label="التالي" onclick="homeScrollNext()">›</button>
             </div>
         </div>
     </div>
@@ -168,6 +170,25 @@
     function homeNext(e){ e.stopPropagation(); homeIdx = (homeIdx+1)%homeImages.length; showHomeImg(); }
     document.getElementById('home-gallery-lightbox').addEventListener('click', function(e){ if(e.target===this) closeHomeGallery(); });
     document.addEventListener('keydown', function(e){ if(document.getElementById('home-gallery-lightbox').style.display==='flex'){ if(e.key==='Escape') closeHomeGallery(); if(e.key==='ArrowLeft') homePrev(e); if(e.key==='ArrowRight') homeNext(e); }});
+
+    // Horizontal scroll controls and drag support
+    const hscroll = document.getElementById('homeHScroll');
+    function homeScrollNext(){ if(!hscroll) return; hscroll.scrollBy({ left: hscroll.clientWidth * 0.7, behavior: 'smooth' }); }
+    function homeScrollPrev(){ if(!hscroll) return; hscroll.scrollBy({ left: -hscroll.clientWidth * 0.7, behavior: 'smooth' }); }
+
+    // Drag to scroll
+    (function(){
+        if(!hscroll) return;
+        let isDown = false, startX, scrollLeft;
+        hscroll.addEventListener('mousedown', (e)=>{ isDown=true; hscroll.classList.add('dragging'); startX = e.pageX - hscroll.offsetLeft; scrollLeft = hscroll.scrollLeft; });
+        window.addEventListener('mouseup', ()=>{ if(isDown){ isDown=false; hscroll.classList.remove('dragging'); } });
+        hscroll.addEventListener('mouseleave', ()=>{ if(isDown){ isDown=false; hscroll.classList.remove('dragging'); } });
+        hscroll.addEventListener('mousemove', (e)=>{ if(!isDown) return; e.preventDefault(); const x = e.pageX - hscroll.offsetLeft; const walk = (x - startX) * 1; hscroll.scrollLeft = scrollLeft - walk; });
+        // touch support
+        let startTouchX=0, startTouchScroll=0;
+        hscroll.addEventListener('touchstart', (e)=>{ startTouchX = e.touches[0].pageX; startTouchScroll = hscroll.scrollLeft; });
+        hscroll.addEventListener('touchmove', (e)=>{ const dx = e.touches[0].pageX - startTouchX; hscroll.scrollLeft = startTouchScroll - dx; });
+    })();
     </script>
 </section>
 <?php endif; ?>
