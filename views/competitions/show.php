@@ -25,6 +25,7 @@ if (!isset($competition_images)) {
                     <div class="comp-logo-placeholder"></div>
                 <?php endif; ?>
             <?php endif; ?>
+                    <br\>
 
             <h1 class="section-title"><?= $this->e($competition['name_ar']) ?></h1>
             <div style="font-size: 18px; color: var(--primary); font-weight: 600; margin-bottom: 15px;">
