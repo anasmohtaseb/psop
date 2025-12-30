@@ -127,9 +127,9 @@
 
 <!-- Recent Competition Photos -->
 <?php if (!empty($recent_competition_images)): ?>
-<section id="home-gallery" class="section" style="padding-top: 20px; padding-bottom: 36px;">
+<section id="home-gallery" class="section home-gallery-section">
     <div class="container">
-        <div style="max-width:1100px;margin:18px auto 0 auto;">
+        <div class="home-gallery-inner" style="max-width:1100px;margin:18px auto 0 auto;">
             <div class="home-horizontal-gallery">
                 <button class="hscroll-btn prev" aria-label="السابق" onclick="homeScrollPrev()">‹</button>
                 <div class="hscroll" id="homeHScroll" tabindex="0">
@@ -227,13 +227,6 @@
 <!-- Why -->
 <section id="about" class="section why-section">
     <div class="container">
-        <div class="section-header-pro">
-            <h2 class="section-title-pro">بوابتك نحو التميز العلمي العالمي</h2>
-            <p class="section-description-pro">
-                إطار شامل لإدارة المشاركة في الأولمبيادات العلمية الدولية مع توفير قنوات تدريب مستدامة ودعم أكاديمي متميز
-            </p>
-        </div>
-
         <div class="features-grid">
             <article class="feature-card">
                 <div class="feature-icon">
