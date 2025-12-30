@@ -32,9 +32,13 @@
                              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                         
                         <div class="comp-logo" style="margin: 30px auto 20px; width: 100px; height: 80px; display: flex; align-items: center; justify-content: center;">
-                            <div class="comp-logo-placeholder" style="width: 80px; height: 80px; background: <?= $catInfo['color'] ?>20; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; color: <?= $catInfo['color'] ?>;">
-                                <?= $this->e($comp['code']) ?>
-                            </div>
+                            <?php if (!empty($comp['logo_path'])): ?>
+                                <img src="<?= $this->asset($comp['logo_path']) ?>" alt="<?= $this->e($comp['name_ar']) ?>" style="width:80px; height:80px; object-fit:contain; border-radius:14px; background: <?= $catInfo['color'] ?>10; padding:6px;">
+                            <?php else: ?>
+                                <div class="comp-logo-placeholder" style="width: 80px; height: 80px; background: <?= $catInfo['color'] ?>20; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; color: <?= $catInfo['color'] ?>;">
+                                    <?= $this->e($comp['code']) ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
                         <div style="padding: 0 28px 28px;">
