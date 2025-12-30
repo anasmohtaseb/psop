@@ -27,11 +27,10 @@ if (!isset($competition_images)) {
                 <?= $this->e($competition['description_ar'] ?? 'مسابقة علمية دولية') ?>
             </p>
             <?php if (!empty($competition['long_description_ar'])): ?>
-            <div style="margin-top: 24px; text-align: right; direction: rtl; color: var(--text-main); font-size: 17px; line-height: 2; background: #fff7f7; border-radius: 14px; padding: 24px 20px; box-shadow: 0 2px 12px rgba(225,29,72,0.04);">
+            <div class="long-description">
                 <?= $competition['long_description_ar'] ?>
             </div>
             <?php endif; ?>
-            </p>
 
 
 
@@ -140,8 +139,8 @@ if (!isset($competition_images)) {
     </div>
     <div id="gallery-lightbox-bg" tabindex="-1">
         <span class="close-btn" onclick="closeGalleryLightbox()">&times;</span>
-        <button class="arrow-btn arrow-left" onclick="galleryPrev(event)"><i class="fa fa-chevron-right"></i></button>
-        <button class="arrow-btn arrow-right" onclick="galleryNext(event)"><i class="fa fa-chevron-left"></i></button>
+        <button class="arrow-btn arrow-left" onclick="galleryPrev(event)"><i class="fa fa-chevron-left"></i></button>
+        <button class="arrow-btn arrow-right" onclick="galleryNext(event)"><i class="fa fa-chevron-right"></i></button>
         <div style="display:flex;flex-direction:column;align-items:center;">
             <img id="gallery-lightbox-img" src="" alt="صورة مكبرة">
             <div id="gallery-lightbox-caption"></div>
@@ -184,8 +183,8 @@ if (!isset($competition_images)) {
     document.addEventListener('keydown', function(e) {
         const lb = document.getElementById('gallery-lightbox-bg');
         if (lb.style.display === 'flex') {
-            if (e.key === 'ArrowLeft') galleryNext(e);
-            if (e.key === 'ArrowRight') galleryPrev(e);
+            if (e.key === 'ArrowLeft') galleryPrev(e);
+            if (e.key === 'ArrowRight') galleryNext(e);
             if (e.key === 'Escape') closeGalleryLightbox();
         }
     });

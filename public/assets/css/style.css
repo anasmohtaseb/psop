@@ -1842,6 +1842,22 @@ footer::before {
         padding-top: 26px;
     }
     .cards-grid {
+
+/* Long description content in competition page */
+.long-description {
+    margin-top: 24px;
+    text-align: right;
+    direction: rtl;
+    color: var(--text-main);
+    font-size: 17px;
+    line-height: 1.9;
+    background: #fff7f7;
+    border-radius: 14px;
+    padding: 24px 20px;
+    box-shadow: 0 2px 12px rgba(225,29,72,0.04);
+    overflow: visible;
+}
+.long-description img { max-width: 100%; height: auto; display: block; margin: 12px 0; border-radius: 8px; }
         grid-template-columns: 1fr;
     }
     .why-grid,
