@@ -12,18 +12,16 @@ if (!isset($competition_images)) {
     <!-- نهاية الصفحة: معرض صور المسابقة -->
     <div class="container">
         <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
-            <?php if (!empty($competition_images) && !empty($competition_images[0]['image_path'])): ?>
+            <?php if (!empty($competition['logo_path'])): ?>
+                <img src="<?= $this->asset($competition['logo_path']) ?>" 
+                     alt="<?= $this->e($competition['name_ar']) ?>"
+                     class="comp-logo-large">
+            <?php elseif (!empty($competition_images) && !empty($competition_images[0]['image_path'])): ?>
                 <div class="comp-banner">
                     <img src="<?= $this->asset($competition_images[0]['image_path']) ?>" alt="<?= $this->e($competition['name_ar']) ?>">
                 </div>
             <?php else: ?>
-                <?php if (!empty($competition['logo_path'])): ?>
-                    <img src="<?= $this->asset($competition['logo_path']) ?>" 
-                         alt="<?= $this->e($competition['name_ar']) ?>"
-                         class="comp-logo-large">
-                <?php else: ?>
-                    <div class="comp-logo-placeholder"></div>
-                <?php endif; ?>
+                <div class="comp-logo-placeholder"></div>
             <?php endif; ?>
                     <br\>
 
