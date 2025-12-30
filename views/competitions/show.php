@@ -11,15 +11,22 @@ if (!isset($competition_images)) {
 
     <!-- نهاية الصفحة: معرض صور المسابقة -->
     <div class="container">
-        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-            <?php if (!empty($competition['logo_path'])): ?>
-                <img src="<?= $this->asset($competition['logo_path']) ?>" 
-                     alt="<?= $this->e($competition['name_ar']) ?>"
-                     style="width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 20px; object-fit: contain; background: white; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
+            <?php if (!empty($competition_images) && !empty($competition_images[0]['image_path'])): ?>
+                <div class="comp-banner">
+                    <img src="<?= $this->asset($competition_images[0]['image_path']) ?>" alt="<?= $this->e($competition['name_ar']) ?>">
+                </div>
             <?php else: ?>
-                <div style="width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 20px; background: linear-gradient(135deg, #0ea5e9, #22c55e); opacity: 0.14;"></div>
+                <?php if (!empty($competition['logo_path'])): ?>
+                    <img src="<?= $this->asset($competition['logo_path']) ?>" 
+                         alt="<?= $this->e($competition['name_ar']) ?>"
+                         class="comp-logo-large">
+                <?php else: ?>
+                    <div class="comp-logo-placeholder"></div>
+                <?php endif; ?>
             <?php endif; ?>
-            <h1 class="section-title" style="margin-bottom: 10px;"><?= $this->e($competition['name_ar']) ?></h1>
+
+            <h1 class="section-title" style="margin-top:18px; margin-bottom: 10px;"><?= $this->e($competition['name_ar']) ?></h1>
             <div style="font-size: 18px; color: var(--primary); font-weight: 600; margin-bottom: 15px;">
                 <?= $this->e($competition['code']) ?>
             </div>
