@@ -26,7 +26,7 @@ if (!isset($competition_images)) {
                 <?php endif; ?>
             <?php endif; ?>
 
-            <h1 class="section-title" style="margin-top:18px; margin-bottom: 10px;"><?= $this->e($competition['name_ar']) ?></h1>
+            <h1 class="section-title"><?= $this->e($competition['name_ar']) ?></h1>
             <div style="font-size: 18px; color: var(--primary); font-weight: 600; margin-bottom: 15px;">
                 <?= $this->e($competition['code']) ?>
             </div>
