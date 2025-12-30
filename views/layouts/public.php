@@ -7,7 +7,7 @@
     <meta name="description" content="<?= $site_settings['site_description'] ?? 'Platform for managing Palestinian participation in international science olympiads' ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= $this->asset('css/style.css') ?>?v=<?= time() ?>">
     <script src="<?= $this->asset('js/app.js') ?>?v=<?= time() ?>" defer></script>
 </head>

@@ -84,6 +84,11 @@
                                        title="تعديل">
                                         ✏️ تعديل
                                     </a>
+                                    <a href="<?= $this->url('/admin/competitions/' . $comp['id'] . '/images') ?>"
+                                       style="display: inline-block; padding: 6px 12px; background: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;"
+                                       title="مكتبة الصور">
+                                        🖼️ مكتبة الصور
+                                    </a>
                                 </div>
                             </td>
                         </tr>
