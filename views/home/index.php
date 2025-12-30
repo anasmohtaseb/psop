@@ -189,6 +189,42 @@
         hscroll.addEventListener('touchstart', (e)=>{ startTouchX = e.touches[0].pageX; startTouchScroll = hscroll.scrollLeft; });
         hscroll.addEventListener('touchmove', (e)=>{ const dx = e.touches[0].pageX - startTouchX; hscroll.scrollLeft = startTouchScroll - dx; });
     })();
+
+    // Auto-play (advance every few seconds). Pauses on hover, focus, and during drag.
+    (function(){
+        if(!hscroll) return;
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if(prefersReduced) return;
+        let autoPlayInterval = 4000;
+        let autoPlayTimer = null;
+
+        function startAutoPlay(){
+            stopAutoPlay();
+            autoPlayTimer = setInterval(()=>{
+                if(!hscroll) return;
+                if(hscroll.classList.contains('dragging')) return;
+                // If user is interacting (focused), don't auto-scroll
+                if(document.activeElement && hscroll.contains(document.activeElement)) return;
+                homeScrollNext();
+            }, autoPlayInterval);
+        }
+
+        function stopAutoPlay(){ if(autoPlayTimer){ clearInterval(autoPlayTimer); autoPlayTimer = null; } }
+
+        hscroll.addEventListener('mouseenter', stopAutoPlay);
+        hscroll.addEventListener('mouseleave', startAutoPlay);
+        hscroll.addEventListener('focusin', stopAutoPlay);
+        hscroll.addEventListener('focusout', startAutoPlay);
+
+        // resume after short delay when user scrolls manually (wheel/drag)
+        let resumeTimer = null;
+        function scheduleResume(){ stopAutoPlay(); if(resumeTimer) clearTimeout(resumeTimer); resumeTimer = setTimeout(startAutoPlay, 2500); }
+        hscroll.addEventListener('wheel', scheduleResume, { passive: true });
+        hscroll.addEventListener('touchend', scheduleResume);
+
+        // start
+        startAutoPlay();
+    })();
     </script>
 </section>
 <?php endif; ?>
