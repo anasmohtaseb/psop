@@ -129,11 +129,6 @@
 <?php if (!empty($recent_competition_images)): ?>
 <section id="home-gallery" class="section" style="padding-top: 20px; padding-bottom: 36px;">
     <div class="container">
-        <div class="section-header-pro">
-            <h2 class="section-title-pro">صور من مسابقاتنا</h2>
-            <p class="section-description-pro">اكتشف لحظات من المشاركات، تدريبات الفرق، والفعاليات الخاصة بكل مسابقة.</p>
-        </div>
-
         <div style="max-width:1100px;margin:18px auto 0 auto;">
             <div class="home-horizontal-gallery">
                 <button class="hscroll-btn prev" aria-label="السابق" onclick="homeScrollPrev()">‹</button>
