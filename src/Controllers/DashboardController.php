@@ -10,6 +10,7 @@ use App\Models\CompetitionEdition;
 use App\Models\Announcement;
 use App\Models\School;
 use App\Models\UserSubscription;
+use App\Models\SiteSetting;
 
 /**
  * Dashboard Controller
@@ -42,31 +43,35 @@ class DashboardController extends Controller
         $registrationModel = new Registration($this->config);
         $editionModel = new CompetitionEdition($this->config);
         $announcementModel = new Announcement($this->config);
-        $subscriptionModel = new UserSubscription($this->config);
         
         $myRegistrations = $registrationModel->findByStudent($this->auth->id());
         $openCompetitions = $editionModel->findOpenForRegistration();
         $announcements = $announcementModel->findPublished('student');
         
-        // Get subscription status
-        $activeSubscription = $subscriptionModel->getActiveSubscription($this->auth->id());
+        // Get subscription status only if subscriptions are enabled
         $subscriptionStatus = null;
+        $settingModel = new SiteSetting($this->config);
         
-        if ($activeSubscription) {
-            $endDate = new \DateTime($activeSubscription['end_date']);
-            $today = new \DateTime();
-            $daysRemaining = $today->diff($endDate)->days;
+        if ($settingModel->getValue('enable_subscriptions', '1') === '1') {
+            $subscriptionModel = new UserSubscription($this->config);
+            $activeSubscription = $subscriptionModel->getActiveSubscription($this->auth->id());
             
-            $subscriptionStatus = [
-                'has_active' => true,
-                'plan_name' => $activeSubscription['plan_name'],
-                'end_date' => $activeSubscription['end_date'],
-                'days_remaining' => $daysRemaining
-            ];
-        } else {
-            $subscriptionStatus = [
-                'has_active' => false
-            ];
+            if ($activeSubscription) {
+                $endDate = new \DateTime($activeSubscription['end_date']);
+                $today = new \DateTime();
+                $daysRemaining = $today->diff($endDate)->days;
+                
+                $subscriptionStatus = [
+                    'has_active' => true,
+                    'plan_name' => $activeSubscription['plan_name'],
+                    'end_date' => $activeSubscription['end_date'],
+                    'days_remaining' => $daysRemaining
+                ];
+            } else {
+                $subscriptionStatus = [
+                    'has_active' => false
+                ];
+            }
         }
         
         $this->render('dashboard/student', [

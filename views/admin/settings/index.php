@@ -30,7 +30,7 @@ $groupNames = [
                     <?php foreach ($settings as $setting): ?>
                         <div class="setting-item <?= $setting['setting_type'] === 'boolean' ? 'setting-checkbox' : '' ?>">
                             <label for="<?= $setting['setting_key'] ?>" class="setting-label">
-                                <?= $this->e($setting['display_name_ar']) ?>
+                                <?= $this->e($setting['display_name'] ?? $setting['display_name_ar'] ?? $setting['setting_key']) ?>
                             </label>
                             
                             <?php if ($setting['setting_type'] === 'text'): ?>

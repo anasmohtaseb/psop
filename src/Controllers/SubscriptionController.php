@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\SubscriptionPlan;
 use App\Models\UserSubscription;
+use App\Models\SiteSetting;
 
 /**
  * Subscription Controller
@@ -15,12 +16,14 @@ class SubscriptionController extends Controller
 {
     private SubscriptionPlan $planModel;
     private UserSubscription $subscriptionModel;
+    private SiteSetting $settingModel;
 
     public function __construct(array $config)
     {
         parent::__construct($config);
         $this->planModel = new SubscriptionPlan($config);
         $this->subscriptionModel = new UserSubscription($config);
+        $this->settingModel = new SiteSetting($config);
     }
 
     /**
@@ -28,6 +31,12 @@ class SubscriptionController extends Controller
      */
     public function plans(): void
     {
+        // Check if subscriptions are enabled BEFORE requiring auth
+        if ($this->settingModel->getValue('enable_subscriptions', '1') === '0') {
+            $this->render('subscriptions/disabled', [], 'public');
+            return;
+        }
+        
         $this->requireAuth();
         
         $user = $this->auth->user();
@@ -57,6 +66,14 @@ class SubscriptionController extends Controller
     public function subscribe(): void
     {
         $this->requireAuth();
+        
+        // Check if subscriptions are enabled
+        if ($this->settingModel->getValue('enable_subscriptions', '1') === '0') {
+            $this->setFlash('error', 'خدمة الاشتراكات معطلة حالياً');
+            $this->redirect('/dashboard');
+            return;
+        }
+        
         $this->validateCsrfToken();
         
         $user = $this->auth->user();
@@ -109,6 +126,13 @@ class SubscriptionController extends Controller
     {
         $this->requireAuth();
         
+        // Check if subscriptions are enabled
+        if ($this->settingModel->getValue('enable_subscriptions', '1') === '0') {
+            $this->setFlash('error', 'خدمة الاشتراكات معطلة حالياً');
+            $this->redirect('/dashboard');
+            return;
+        }
+        
         $user = $this->auth->user();
         
         // Get subscription
@@ -135,6 +159,14 @@ class SubscriptionController extends Controller
     public function confirmPayment(): void
     {
         $this->requireAuth();
+        
+        // Check if subscriptions are enabled
+        if ($this->settingModel->getValue('enable_subscriptions', '1') === '0') {
+            $this->setFlash('error', 'خدمة الاشتراكات معطلة حالياً');
+            $this->redirect('/dashboard');
+            return;
+        }
+        
         $this->validateCsrfToken();
         
         $user = $this->auth->user();
@@ -176,6 +208,13 @@ class SubscriptionController extends Controller
     public function mySubscription(): void
     {
         $this->requireAuth();
+        
+        // Check if subscriptions are enabled
+        if ($this->settingModel->getValue('enable_subscriptions', '1') === '0') {
+            $this->setFlash('error', 'خدمة الاشتراكات معطلة حالياً');
+            $this->redirect('/dashboard');
+            return;
+        }
         
         $user = $this->auth->user();
         

@@ -1,3 +1,68 @@
+# Palestine Science Olympiad — AI Coding Agent Instructions
+
+This file tells an AI coding agent how this repository is structured, how features are added, and the small, project-specific conventions you must follow to be productive immediately.
+
+- **Big picture**: custom PSR-4 PHP MVC (no framework). Front controller `public/index.php` registers routes, the Router (`src/Core/Router.php`) dispatches to controller actions. Controllers extend `App\Core\Controller`; models extend `App\Models\BaseModel` and use a shared PDO connection from `config/database.php`. Views live under `views/` and are rendered via `$this->render()` with data extracted to variables.
+
+- **Key files to inspect first**: `public/index.php`, `src/Core/Router.php`, `src/Core/Controller.php`, `src/Models/BaseModel.php`, `config/config.php`, `config/database.php`, `src/Core/ActivityLogger.php`, and `views/layouts/*`.
+
+- **Data flow / why it’s structured this way**: routes → controller → model → view. Models centralize DB access with prepared statements and `PDO::FETCH_ASSOC`. Activity logging is a cross-cutting helper (`logActivity()`), used instead of ad-hoc logging.
+
+- **Developer workflows (concrete commands)**:
+  - Install deps: `composer install`.
+  - Create `.env` from example and set DB credentials.
+  - Import DB (Windows PowerShell example):
+    ```powershell
+    Get-Content database\schema.sql | mysql -u root -p psop_db
+    ```
+  - Reset admin: `php reset_admin_password.php`.
+  - Regenerate API docs: `php public/generate-swagger.php`.
+  - Run locally: host `public/` on XAMPP -> `http://localhost/psop/public`.
+
+- **Project-specific conventions** (must-follow):
+  - All routes are defined in `public/index.php`. Add new routes there.
+  - Controller constructors MUST call `parent::__construct($config)` first.
+  - Use `$this->requireAuth()` / `$this->requireRole('role')` to guard actions.
+  - POST handlers must call `$this->validateCsrfToken()`; CSRF field name is `csrf_token`.
+  - Use `$this->render('view/path', $data, 'layout')` or `$this->json()` — do not `echo` in controllers.
+  - Validation: use `Validator` which stores `$_SESSION['errors']` and `$_SESSION['old']` on failure.
+  - Models: set `protected string $table = 'table_name'`. Use `create()`, `update()`, `findById()`, etc.
+  - Always use prepared statements; never concatenate variables into SQL.
+  - Flash messages use `$_SESSION['flash']` and are rendered by layouts automatically.
+  - UI is Arabic-first / RTL; prefer `name_ar` fields for display.
+
+- **Integration & external points**:
+  - DB: MySQL via PDO configured in `config/database.php`.
+  - File uploads live under `public/assets/uploads` and repository `uploads/` — preserve existing upload handling.
+  - API controllers live in `src/Controllers/Api/`; tokens via `Authorization: Bearer {token}`. Swagger/OpenAPI annotations present; regenerate with `php public/generate-swagger.php` when changing APIs.
+
+- **How to make changes safely (AI guidance)**:
+  - Preserve PSR-4 namespaces and file locations under `src/` and `views/`.
+  - When adding DB schema changes, add SQL in `database/migrations/` or update `database/*.sql` and mention it in the PR description.
+  - Add `logActivity()` calls for significant state changes (creates/updates/deletes) using Arabic descriptions where appropriate.
+  - Keep controller methods small; reuse models for DB access.
+  - Follow existing error/message localization (Arabic default) when adding UI strings.
+  - Avoid adding inline code comments in existing files unless requested by humans.
+
+- **Quick examples** (follow these patterns):
+  - Route: `$router->get('/competitions/{id}', 'CompetitionController', 'show');`
+  - Controller action skeleton:
+    ```php
+    public function show($id) {
+        $this->requireAuth();
+        $model = new Competition($this->config);
+        $item = $model->findById($id);
+        $this->render('competitions/show', ['competition' => $item]);
+    }
+    ```
+  - Model create: `$id = $this->create(['name' => 'X', 'code' => 'ABC']);`
+
+- **What not to do**:
+  - Don't change global session config without coordinating with `config/config.php`.
+  - Don't bypass prepared statements or validator helpers.
+  - Don't move routes out of `public/index.php` — the Router expects them there.
+
+If anything above is unclear or you'd like more examples (e.g., typical PR checklist, test harness, or common refactors), tell me which area to expand. 
 # Palestine Science Olympiad Portal - AI Coding Agent Instructions
 
 ## Project Overview

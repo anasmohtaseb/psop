@@ -154,4 +154,18 @@ class View
         
         return $_SESSION['csrf_token'];
     }
+
+    /**
+     * Check if subscriptions feature is enabled
+     */
+    public function isSubscriptionsEnabled(): bool
+    {
+        try {
+            $settingModel = new \App\Models\SiteSetting($this->config);
+            $value = $settingModel->getValue('enable_subscriptions', '1');
+            return $value === '1' || $value === 1;
+        } catch (\Exception $e) {
+            return true; // Default to enabled if error
+        }
+    }
 }

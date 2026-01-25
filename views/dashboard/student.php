@@ -6,7 +6,7 @@
 </div>
 
 <!-- Subscription Status Alert -->
-<?php if (isset($subscription_status)): ?>
+<?php if ($this->isSubscriptionsEnabled() && isset($subscription_status)): ?>
     <?php if ($subscription_status['has_active']): ?>
     <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; padding: 16px 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
         <div>
