@@ -264,4 +264,52 @@ if (!isset($competition_images)) {
         </div>
     </div>
 </section>
+<?php elseif (isset($_SESSION['user']) && $_SESSION['user']['type'] === 'student'): ?>
+    <?php 
+    // Check if there's an active edition
+    $hasActiveEdition = false;
+    $activeEdition = null;
+    foreach ($editions as $edition) {
+        if ($edition['status'] === 'active' || $edition['status'] === 'upcoming') {
+            $hasActiveEdition = true;
+            $activeEdition = $edition;
+            break;
+        }
+    }
+    ?>
+    <?php if ($hasActiveEdition): ?>
+        <?php
+        // Check if student is already registered
+        $registrationModel = new \App\Models\Registration($this->config);
+        $isRegistered = $registrationModel->isStudentRegistered($_SESSION['user_id'], $activeEdition['id']);
+        ?>
+        <section>
+            <div class="container">
+                <div class="card" style="background: linear-gradient(135deg, <?= $isRegistered ? '#10b981' : 'var(--primary)' ?>, <?= $isRegistered ? '#059669' : '#f97316' ?>); border: none; border-radius: 22px; padding: 50px; text-align: center; color: white;">
+                    <?php if ($isRegistered): ?>
+                        <div style="font-size: 48px; margin-bottom: 15px;">✓</div>
+                        <h2 style="color: white; font-size: 28px; margin-bottom: 15px;">أنت مسجل في هذه المسابقة!</h2>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 16px; margin-bottom: 25px;">
+                            يمكنك متابعة حالة تسجيلك من لوحة التحكم
+                        </p>
+                        <a href="<?= $this->url('/dashboard/registrations') ?>" 
+                           class="btn" 
+                           style="display: inline-block; padding: 12px 30px; background: white; color: #10b981; font-weight: 700; text-decoration: none; border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                            عرض تسجيلاتي
+                        </a>
+                    <?php else: ?>
+                        <h2 style="color: white; font-size: 28px; margin-bottom: 15px;">سجل في المسابقة الآن!</h2>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 16px; margin-bottom: 25px;">
+                            <?= $this->e($activeEdition['name_ar'] ?? 'النسخة الحالية') ?> - <?= $activeEdition['year'] ?>
+                        </p>
+                        <a href="<?= $this->url('/registrations/create/' . $activeEdition['id']) ?>" 
+                           class="btn" 
+                           style="display: inline-block; padding: 12px 30px; background: white; color: var(--primary); font-weight: 700; text-decoration: none; border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                            سجل في المسابقة
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
 <?php endif; ?>

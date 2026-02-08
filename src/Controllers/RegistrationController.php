@@ -59,12 +59,18 @@ class RegistrationController extends Controller
             return;
         }
         
-        // Check if user has active subscription
-        $subscriptionModel = new UserSubscription($this->config);
-        if (!$subscriptionModel->hasActiveSubscription($this->auth->id())) {
-            $this->setFlash('error', 'يجب أن يكون لديك اشتراك نشط للتسجيل في المسابقات');
-            $this->redirect('/subscriptions/plans');
-            return;
+        // Check subscription only if enabled in settings
+        $settingModel = new \App\Models\SiteSetting($this->config);
+        $subscriptionsEnabled = $settingModel->getValue('enable_subscriptions', '1') === '1';
+        
+        if ($subscriptionsEnabled) {
+            // Check if user has active subscription
+            $subscriptionModel = new UserSubscription($this->config);
+            if (!$subscriptionModel->hasActiveSubscription($this->auth->id())) {
+                $this->setFlash('error', 'يجب أن يكون لديك اشتراك نشط للتسجيل في المسابقات');
+                $this->redirect('/subscriptions/plans');
+                return;
+            }
         }
         
         // Check if already registered
