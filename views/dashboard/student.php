@@ -1,4 +1,4 @@
-<div class="dashboard-header" style="margin-bottom: 30px;">
+<div class="page-header" style="margin-bottom: 30px;">
     <div>
         <h1 style="color: var(--text-main); font-size: 28px; margin-bottom: 8px;">مرحباً، <?= $this->e($user['name']) ?> 👋</h1>
         <p style="color: var(--text-muted); font-size: 16px;">لوحة تحكم الطالب - تابع تسجيلاتك واستكشف المسابقات المتاحة</p>

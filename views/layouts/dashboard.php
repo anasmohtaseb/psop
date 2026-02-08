@@ -13,6 +13,7 @@
         body.dashboard-body { 
             background: #f5f5f5 !important;
             margin: 0;
+            padding-top: 0 !important;
             font-family: 'Cairo', sans-serif;
         }
         
@@ -42,6 +43,11 @@
     <header class="dashboard-header">
         <div class="dashboard-top-bar">
             <div class="dashboard-left">
+                <button class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="فتح القائمة">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="dashboard-brand">
                     <?php if (!empty($site_settings['site_logo'])): ?>
                         <img src="<?= $this->url($site_settings['site_logo']) ?>" 
@@ -59,7 +65,10 @@
                 </div>
             </div>
             <div class="dashboard-right">
-                <a href="<?= $this->url('/') ?>" class="home-link">🏠 الصفحة الرئيسية</a>
+                <a href="<?= $this->url('/') ?>" class="home-link" title="الصفحة الرئيسية">
+                    <span class="home-icon">🏠</span>
+                    <span class="home-text">الصفحة الرئيسية</span>
+                </a>
                 <?php if (isset($user)): ?>
                     <div class="user-profile-box">
                         <button class="user-profile-btn" id="userProfileBtn">
@@ -67,7 +76,7 @@
                             <span class="user-display-name"><?= $this->e($user['name']) ?></span>
                             <span class="arrow-down">▼</span>
                         </button>
-                        <div class="user-dropdown-panel" id="userDropdown">
+                        <div class="user-dropdown-panel" id="userDropdown" style="z-index: 9999;">
                             <a href="<?= $this->url('/profile') ?>" class="dropdown-item">الملف الشخصي</a>
                             <a href="<?= $this->url('/logout') ?>" class="dropdown-item logout">تسجيل الخروج</a>
                         </div>
@@ -78,7 +87,8 @@
     </header>
 
     <div class="dashboard-layout">
-        <aside class="sidebar">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <aside class="sidebar" id="dashboardSidebar">
             <ul class="sidebar-menu">
                 <li><a href="<?= $this->url('/dashboard') ?>"><span>📊</span> الرئيسية</a></li>
                 
@@ -142,24 +152,83 @@
     </div>
 
     <script>
-        // User dropdown toggle
-        const userProfileBtn = document.getElementById('userProfileBtn');
-        const userDropdown = document.getElementById('userDropdown');
+        // Mobile Sidebar Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            const dashboardSidebar = document.getElementById('dashboardSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            console.log('Sidebar elements:', {
+                toggle: mobileSidebarToggle,
+                sidebar: dashboardSidebar,
+                overlay: sidebarOverlay
+            });
+            
+            if (mobileSidebarToggle && dashboardSidebar && sidebarOverlay) {
+                mobileSidebarToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Toggle clicked');
+                    dashboardSidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                    mobileSidebarToggle.classList.toggle('active');
+                });
+                
+                sidebarOverlay.addEventListener('click', () => {
+                    console.log('Overlay clicked');
+                    dashboardSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    mobileSidebarToggle.classList.remove('active');
+                });
+                
+                // Close sidebar when clicking a link on mobile
+                const sidebarLinks = dashboardSidebar.querySelectorAll('a');
+                sidebarLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 768) {
+                            dashboardSidebar.classList.remove('active');
+                            sidebarOverlay.classList.remove('active');
+                            mobileSidebarToggle.classList.remove('active');
+                        }
+                    });
+                });
+            } else {
+                console.error('Sidebar elements not found!');
+            }
+        });
         
-        if (userProfileBtn && userDropdown) {
-            userProfileBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                userDropdown.classList.toggle('active');
-            });
+        // User dropdown toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const userProfileBtn = document.getElementById('userProfileBtn');
+            const userDropdown = document.getElementById('userDropdown');
             
-            document.addEventListener('click', () => {
-                userDropdown.classList.remove('active');
-            });
-            
-            userDropdown.addEventListener('click', (e) => {
-                e.stopPropagation();
-            });
-        }
+            if (userProfileBtn && userDropdown) {
+                userProfileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    
+                    // Toggle dropdown
+                    const isActive = userDropdown.classList.toggle('active');
+                    
+                    // Position the dropdown using fixed positioning
+                    if (isActive) {
+                        const rect = userProfileBtn.getBoundingClientRect();
+                        userDropdown.style.position = 'fixed';
+                        userDropdown.style.top = (rect.bottom + 8) + 'px';
+                        userDropdown.style.left = rect.left + 'px';
+                        userDropdown.style.right = 'auto';
+                    }
+                });
+                
+                document.addEventListener('click', () => {
+                    userDropdown.classList.remove('active');
+                });
+                
+                userDropdown.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+        });
         
         // Settings dropdown toggle
         function toggleSettingsMenu(event) {

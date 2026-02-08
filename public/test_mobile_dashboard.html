@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الداشبورد - الموبايل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .test-card h2 {
+            color: #e11d48;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .test-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .test-link {
+            display: inline-block;
+            background: #e11d48;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .test-link:hover {
+            background: #be123c;
+            transform: translateY(-2px);
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9fafb;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checklist li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .screen-sizes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .screen-card {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .screen-card strong {
+            display: block;
+            color: #e11d48;
+            margin-bottom: 5px;
+        }
+        
+        .warning {
+            background: #fef3c7;
+            border-right: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .warning strong {
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-card">
+            <h2>🎉 تم تحسين الداشبورد للموبايل!</h2>
+            <p>تم تطبيق التحسينات التالية:</p>
+            <ul class="checklist">
+                <li>إضافة زر قائمة (Hamburger Menu)</li>
+                <li>Sidebar منزلق يعمل بسلاسة</li>
+                <li>Overlay شفاف خلف القائمة</li>
+                <li>إغلاق تلقائي عند النقر على الروابط</li>
+                <li>تحسين الأحجام والمسافات</li>
+                <li>جداول scrollable أفقياً</li>
+                <li>تحسين الأزرار والنماذج</li>
+            </ul>
+            
+            <a href="../dashboard" class="test-link">انتقل إلى الداشبورد</a>
+        </div>
+        
+        <div class="test-card">
+            <h2>📱 الأجهزة المدعومة</h2>
+            <div class="screen-sizes">
+                <div class="screen-card">
+                    <strong>iPhone SE</strong>
+                    <span>375px</span>
+                </div>
+                <div class="screen-card">
+                    <strong>iPhone 12</strong>
+                    <span>390px</span>
+                </div>
+                <div class="screen-card">
+                    <strong>iPad Mini</strong>
+                    <span>768px</span>
+                </div>
+                <div class="screen-card">
+                    <strong>Desktop</strong>
+                    <span>> 768px</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h2>✅ قائمة الاختبار</h2>
+            <ul class="checklist">
+                <li>فتح الداشبورد على الموبايل</li>
+                <li>النقر على زر القائمة (☰)</li>
+                <li>التأكد من انزلاق القائمة بسلاسة</li>
+                <li>النقر على الـ overlay للإغلاق</li>
+                <li>النقر على رابط في القائمة</li>
+                <li>التأكد من الإغلاق التلقائي</li>
+                <li>اختبار تمرير الجداول أفقياً</li>
+                <li>اختبار النماذج والأزرار</li>
+            </ul>
+        </div>
+        
+        <div class="test-card">
+            <h2>🔍 كيفية الاختبار</h2>
+            <p><strong>الطريقة الأولى:</strong> استخدم Chrome DevTools</p>
+            <ol style="padding-right: 20px; color: #666;">
+                <li>افتح الداشبورد</li>
+                <li>اضغط F12 لفتح DevTools</li>
+                <li>اضغط على أيقونة Device Toggle (Ctrl+Shift+M)</li>
+                <li>اختر iPhone أو أي جهاز موبايل</li>
+                <li>اختبر الميزات الجديدة</li>
+            </ol>
+            
+            <p style="margin-top: 15px;"><strong>الطريقة الثانية:</strong> استخدم هاتفك الفعلي</p>
+            <ol style="padding-right: 20px; color: #666;">
+                <li>تأكد من أن الهاتف متصل بنفس الشبكة</li>
+                <li>افتح المتصفح على الهاتف</li>
+                <li>اذهب إلى: http://192.168.x.x/psop/public/dashboard</li>
+                <li>اختبر جميع الميزات</li>
+            </ol>
+            
+            <div class="warning">
+                <strong>⚠️ ملاحظة:</strong> تأكد من تسجيل الدخول قبل الوصول إلى الداشبورد
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h2>📄 التوثيق</h2>
+            <p>لمزيد من التفاصيل، راجع:</p>
+            <a href="../docs/mobile-dashboard-improvements.md" class="test-link">عرض التوثيق الكامل</a>
+        </div>
+    </div>
+</body>
+</html>

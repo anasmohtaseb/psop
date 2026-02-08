@@ -1,4 +1,4 @@
-<div class="dashboard-header" style="margin-bottom: 30px;">
+<div class="page-header" style="margin-bottom: 30px;">
     <h1 style="color: var(--text-main); font-size: 28px; margin-bottom: 8px;">
         مرحباً، <?= $this->e($user['name']) ?> 👋
     </h1>
