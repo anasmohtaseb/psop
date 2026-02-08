@@ -78,19 +78,23 @@ class Auth
     }
 
     /**
-     * Attempt to login with email and password
+     * Attempt to login with phone/email and password
+     * @param string $identifier Can be phone number or email
      */
-    public function attempt(string $email, string $password): bool
+    public function attempt(string $identifier, string $password): bool
     {
+        // Check if identifier is email or phone
+        $isEmail = filter_var($identifier, FILTER_VALIDATE_EMAIL);
+        
         $stmt = $this->db->prepare('
             SELECT u.*, GROUP_CONCAT(r.role_name) as roles
             FROM users u
             LEFT JOIN user_roles ur ON u.id = ur.user_id
             LEFT JOIN roles r ON ur.role_id = r.id
-            WHERE u.email = ? AND u.status = "active"
+            WHERE ' . ($isEmail ? 'u.email' : 'u.phone') . ' = ? AND u.status = "active"
             GROUP BY u.id
         ');
-        $stmt->execute([$email]);
+        $stmt->execute([$identifier]);
         $user = $stmt->fetch();
         
         if ($user && password_verify($password, $user['password_hash'])) {

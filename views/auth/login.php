@@ -6,8 +6,8 @@
             <input type="hidden" name="<?= $csrf_token_name ?? '_csrf_token' ?>" value="<?= $csrf_token ?>">
             
             <div class="form-group">
-                <label for="email">البريد الإلكتروني</label>
-                <input type="email" id="email" name="email" required>
+                <label for="identifier">رقم الجوال أو البريد الإلكتروني</label>
+                <input type="text" id="identifier" name="identifier" required placeholder="0599123456 أو email@example.com">
             </div>
             
             <div class="form-group">

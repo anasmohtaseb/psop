@@ -15,8 +15,21 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="email">البريد الإلكتروني *</label>
-                    <input type="email" id="email" name="email" required value="<?= $_SESSION['old']['email'] ?? '' ?>">
+                    <label for="phone">رقم الجوال *</label>
+                    <input type="tel" id="phone" name="phone" required value="<?= $_SESSION['old']['phone'] ?? '' ?>" placeholder="0599123456">
+                    <small style="color: #6b7280; font-size: 13px; display: block; margin-top: 4px;">
+                        ستستخدمه لتسجيل الدخول
+                    </small>
+                    <?php if (isset($_SESSION['errors']['phone'])): ?>
+                        <span class="error"><?= $this->e($_SESSION['errors']['phone'][0]) ?></span>
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني (اختياري)</label>
+                    <input type="email" id="email" name="email" value="<?= $_SESSION['old']['email'] ?? '' ?>">
                     <?php if (isset($_SESSION['errors']['email'])): ?>
                         <span class="error"><?= $this->e($_SESSION['errors']['email'][0]) ?></span>
                     <?php endif; ?>
@@ -38,15 +51,8 @@
                 </div>
             </div>
             
+            
             <div class="form-row">
-                <div class="form-group">
-                    <label for="phone">رقم الهاتف *</label>
-                    <input type="tel" id="phone" name="phone" required value="<?= $_SESSION['old']['phone'] ?? '' ?>">
-                    <?php if (isset($_SESSION['errors']['phone'])): ?>
-                        <span class="error"><?= $this->e($_SESSION['errors']['phone'][0]) ?></span>
-                    <?php endif; ?>
-                </div>
-                
                 <div class="form-group">
                     <label for="gender">الجنس *</label>
                     <select id="gender" name="gender" required>

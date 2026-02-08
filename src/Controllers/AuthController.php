@@ -40,14 +40,14 @@ class AuthController extends Controller
             $this->redirect('/login');
         }
         
-        $email = $_POST['email'] ?? '';
+        $identifier = $_POST['identifier'] ?? ''; // يمكن أن يكون رقم جوال أو بريد إلكتروني
         $password = $_POST['password'] ?? '';
         
-        if ($this->auth->attempt($email, $password)) {
+        if ($this->auth->attempt($identifier, $password)) {
             $this->setFlash('success', 'تم تسجيل الدخول بنجاح');
             $this->redirect('/dashboard');
         } else {
-            $this->setFlash('error', 'البريد الإلكتروني أو كلمة المرور غير صحيحة');
+            $this->setFlash('error', 'رقم الجوال أو كلمة المرور غير صحيحة');
             $this->redirect('/login');
         }
     }
@@ -83,19 +83,22 @@ class AuthController extends Controller
         $validator = new Validator($_POST);
         $validator
             ->required('name', 'الاسم مطلوب')
-            ->required('email', 'البريد الإلكتروني مطلوب')
-            ->email('email')
+            ->required('phone', 'رقم الجوال مطلوب')
+            ->phone('phone')
             ->required('password', 'كلمة المرور مطلوبة')
             ->min('password', 8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل')
             ->matches('password_confirmation', 'password', 'كلمة المرور غير متطابقة')
-            ->required('phone', 'رقم الهاتف مطلوب')
-            ->phone('phone')
             ->required('gender', 'الجنس مطلوب')
             ->in('gender', ['male', 'female'])
             ->required('date_of_birth', 'تاريخ الميلاد مطلوب')
             ->date('date_of_birth')
             ->required('grade', 'الصف الدراسي مطلوب')
             ->required('school_id', 'المدرسة مطلوبة');
+        
+        // Validate email only if provided
+        if (!empty($_POST['email'])) {
+            $validator->email('email');
+        }
         
         // If "other" school is selected, validate the school name
         if ($_POST['school_id'] === 'other') {
@@ -108,7 +111,12 @@ class AuthController extends Controller
         require_once $this->config['paths']['root'] . '/config/database.php';
         $db = getDatabase($this->config);
         
-        $validator->unique('email', $db, 'users', 'email', null, 'البريد الإلكتروني مستخدم بالفعل');
+        $validator->unique('phone', $db, 'users', 'phone', null, 'رقم الجوال مستخدم بالفعل');
+        
+        // Check email uniqueness only if provided
+        if (!empty($_POST['email'])) {
+            $validator->unique('email', $db, 'users', 'email', null, 'البريد الإلكتروني مستخدم بالفعل');
+        }
         
         if ($validator->fails()) {
             $this->setFlash('error', 'يرجى تصحيح الأخطاء في النموذج');
@@ -135,7 +143,7 @@ class AuthController extends Controller
             // Create user
             $userId = $userModel->createUser([
                 'name' => $_POST['name'],
-                'email' => $_POST['email'],
+                'email' => !empty($_POST['email']) ? $_POST['email'] : null,
                 'password' => $_POST['password'],
                 'phone' => $_POST['phone'],
                 'type' => 'student',
@@ -154,8 +162,8 @@ class AuthController extends Controller
                 'guardian_phone' => $_POST['guardian_phone'] ?? null,
             ]);
             
-            // Auto-login
-            $this->auth->attempt($_POST['email'], $_POST['password']);
+            // Auto-login using phone number
+            $this->auth->attempt($_POST['phone'], $_POST['password']);
             
             $this->setFlash('success', 'تم التسجيل بنجاح');
             $this->redirect('/dashboard');
