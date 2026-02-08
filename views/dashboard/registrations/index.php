@@ -4,7 +4,7 @@
             <h1 style="color: var(--text-main); font-size: 28px; margin-bottom: 8px;">تسجيلاتي</h1>
             <p style="color: var(--text-muted);">عرض جميع تسجيلاتك في المسابقات</p>
         </div>
-        <a href="<?= $this->url('/competitions') ?>" style="background: var(--primary); color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+        <a href="<?= $this->url('/competitions') ?>" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">
             <span style="font-size: 20px;">➕</span>
             تسجيل في مسابقة جديدة
         </a>
@@ -16,7 +16,7 @@
         <div style="font-size: 64px; margin-bottom: 16px;">📝</div>
         <h3 style="color: var(--text-main); font-size: 20px; margin-bottom: 12px;">لا توجد تسجيلات</h3>
         <p style="color: var(--text-muted); margin-bottom: 24px;">لم تقم بالتسجيل في أي مسابقة حتى الآن</p>
-        <a href="<?= $this->url('/competitions') ?>" style="background: var(--primary); color: white; padding: 12px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-block;">
+        <a href="<?= $this->url('/competitions') ?>" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 12px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-block; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">
             تصفح المسابقات المتاحة
         </a>
     </div>
@@ -56,9 +56,14 @@
                     $color = $statusColors[$reg['status']] ?? '#6b7280';
                     $label = $statusLabels[$reg['status']] ?? $reg['status'];
                     ?>
-                    <span style="background: <?= $color ?>; color: white; padding: 8px 16px; border-radius: 12px; font-size: 14px; font-weight: 600;">
-                        <?= $label ?>
-                    </span>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span style="background: <?= $color ?>; color: white; padding: 8px 16px; border-radius: 12px; font-size: 14px; font-weight: 600;">
+                            <?= $label ?>
+                        </span>
+                        <a href="<?= $this->url('/registrations/view/' . $reg['id']) ?>" style="background: #f1f5f9; color: var(--text-muted); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; text-decoration: none; transition: all 0.2s;" title="عرض التفاصيل" onmouseover="this.style.background='#e2e8f0'; this.style.color='var(--primary)';" onmouseout="this.style.background='#f1f5f9'; this.style.color='var(--text-muted)';">
+                            👁️
+                        </a>
+                    </div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding: 16px; background: #f9fafb; border-radius: 12px; margin-bottom: 16px;">

@@ -138,14 +138,23 @@
             </div>
 
             <!-- Active Status -->
-            <div class="form-group">
+            <div class="form-group" style="display: flex; gap: 20px;">
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                     <input type="checkbox" 
                            name="is_active" 
                            value="1"
-                           <?= isset($_SESSION['old']['is_active']) && $_SESSION['old']['is_active'] ? 'checked' : 'checked' ?>
+                           <?= isset($_SESSION['old']['is_active']) ? ($_SESSION['old']['is_active'] ? 'checked' : '') : 'checked' ?>
                            style="width: 20px; height: 20px; cursor: pointer;">
                     <span style="font-weight: 600; color: var(--text-main);">المسابقة نشطة</span>
+                </label>
+                
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" 
+                           name="is_registration_open" 
+                           value="1"
+                           <?= isset($_SESSION['old']['is_registration_open']) ? ($_SESSION['old']['is_registration_open'] ? 'checked' : '') : 'checked' ?>
+                           style="width: 20px; height: 20px; cursor: pointer;">
+                    <span style="font-weight: 600; color: var(--text-main);">فتح التسجيل</span>
                 </label>
             </div>
 

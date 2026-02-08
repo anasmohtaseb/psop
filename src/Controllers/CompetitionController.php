@@ -7,6 +7,8 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\Competition;
 use App\Models\CompetitionEdition;
+use App\Models\StudentProfile;
+use App\Models\Registration;
 
 /**
  * Competition Controller
@@ -43,9 +45,26 @@ class CompetitionController extends Controller
         $editionModel = new CompetitionEdition($this->config);
         $editions = $editionModel->findByCompetition((int)$id);
         
+        // Enrich editions with tracks data
+        foreach ($editions as &$edition) {
+             $fullDetails = $editionModel->findWithTracks((int)$edition['id']);
+             if ($fullDetails) {
+                 $edition['tracks'] = $fullDetails['tracks'];
+             }
+        }
+
+        // Fetch extra data for embedded registration form
+        $studentProfile = null;
+        if ($this->auth->check() && $this->auth->isStudent()) {
+             $profileModel = new StudentProfile($this->config);
+             $studentProfile = $profileModel->findWithUser($this->auth->id());
+        }
+        
         $this->render('competitions/show', [
             'competition' => $competition,
             'editions' => $editions,
+            'student_profile' => $studentProfile,
+            'csrf_token' => $this->generateCsrfToken(),
         ], 'public');
     }
 
@@ -108,6 +127,7 @@ class CompetitionController extends Controller
                 'long_description_en' => $_POST['long_description_en'] ?? null,
                 'logo_path' => $logoPath,
                 'is_active' => isset($_POST['is_active']) ? 1 : 0,
+                'is_registration_open' => isset($_POST['is_registration_open']) ? 1 : 0,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -165,6 +185,7 @@ class CompetitionController extends Controller
             'long_description_ar' => $_POST['long_description_ar'] ?? null,
             'long_description_en' => $_POST['long_description_en'] ?? null,
             'is_active' => isset($_POST['is_active']) ? 1 : 0,
+            'is_registration_open' => isset($_POST['is_registration_open']) ? 1 : 0,
             'updated_at' => date('Y-m-d H:i:s'),
         ];
         

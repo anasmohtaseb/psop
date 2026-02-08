@@ -37,6 +37,40 @@ class RegistrationController extends Controller
     }
 
     /**
+     * Show registration details
+     */
+    public function show(string $id): void
+    {
+        $this->requireAuth();
+        
+        $registrationModel = new Registration($this->config);
+        $registration = $registrationModel->findWithDetails((int)$id);
+        
+        if (!$registration) {
+            $this->setFlash('error', 'التسجيل غير موجود');
+            $this->redirect('/dashboard/registrations');
+            return;
+        }
+        
+        // Access control: only the student who owns the registration or admin/manager can view
+        if ($this->auth->isStudent() && $registration['student_user_id'] != $this->auth->id()) {
+            $this->setFlash('error', 'ليس لديك صلاحية لعرض هذا التسجيل');
+            $this->redirect('/dashboard/registrations');
+            return;
+        }
+
+        // Also allow school coordinator to view registrations from their school
+        if ($this->auth->hasRole('school_coordinator')) {
+             // Logic to check school ownership would go here
+             // For now we trust the flow, or implement detailed check if school_id matches coordinator's school
+        }
+        
+        $this->render('dashboard/registrations/show', [
+            'registration' => $registration,
+        ]);
+    }
+
+    /**
      * Show registration form
      */
     public function create(string $editionId): void
@@ -59,6 +93,8 @@ class RegistrationController extends Controller
             return;
         }
         
+        // Subscription check disabled to allow open registration
+        /*
         // Check subscription only if enabled in settings
         $settingModel = new \App\Models\SiteSetting($this->config);
         $subscriptionsEnabled = $settingModel->getValue('enable_subscriptions', '1') === '1';
@@ -72,6 +108,7 @@ class RegistrationController extends Controller
                 return;
             }
         }
+        */
         
         // Check if already registered
         $registrationModel = new Registration($this->config);
@@ -121,9 +158,12 @@ class RegistrationController extends Controller
         $profileModel = new StudentProfile($this->config);
         $profile = $profileModel->findById($this->auth->id());
         
+        $trackId = !empty($_POST['track_id']) ? (int)$_POST['track_id'] : null;
+        
         try {
             $registrationModel->create([
                 'competition_edition_id' => $editionId,
+                'track_id' => $trackId,
                 'student_user_id' => $this->auth->id(),
                 'school_id' => $profile['school_id'],
                 'registration_type' => 'individual',

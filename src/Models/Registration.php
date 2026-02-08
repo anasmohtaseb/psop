@@ -69,6 +69,28 @@ class Registration extends BaseModel
     }
 
     /**
+     * Get registration details by ID
+     */
+    public function findWithDetails(int $id): ?array
+    {
+        return $this->queryOne("
+            SELECT r.*, 
+                   ce.year, ce.competition_start_date, ce.competition_end_date,
+                   c.name_ar as competition_name, c.code as competition_code, c.description_ar as competition_description,
+                   ct.name_ar as track_name,
+                   u.name as student_name, u.email as student_email,
+                   s.name as school_name
+            FROM {$this->table} r
+            INNER JOIN competition_editions ce ON r.competition_edition_id = ce.id
+            INNER JOIN competitions c ON ce.competition_id = c.id
+            LEFT JOIN competition_tracks ct ON r.track_id = ct.id
+            LEFT JOIN users u ON r.student_user_id = u.id
+            LEFT JOIN schools s ON r.school_id = s.id
+            WHERE r.id = ?
+        ", [$id]);
+    }
+
+    /**
      * Check if student already registered for edition
      */
     public function isStudentRegistered(int $studentUserId, int $editionId): bool

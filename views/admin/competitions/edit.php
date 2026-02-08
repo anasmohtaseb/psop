@@ -136,7 +136,7 @@
             </div>
 
             <!-- Active Status -->
-            <div class="form-group">
+            <div class="form-group" style="display: flex; gap: 20px;">
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                     <input type="checkbox" 
                            name="is_active" 
@@ -144,6 +144,15 @@
                            <?= ($competition['is_active'] ?? false) ? 'checked' : '' ?>
                            style="width: 20px; height: 20px; cursor: pointer;">
                     <span style="font-weight: 600; color: var(--text-main);">المسابقة نشطة</span>
+                </label>
+                
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" 
+                           name="is_registration_open" 
+                           value="1"
+                           <?= ($competition['is_registration_open'] ?? true) ? 'checked' : '' ?>
+                           style="width: 20px; height: 20px; cursor: pointer;">
+                    <span style="font-weight: 600; color: var(--text-main);">فتح التسجيل</span>
                 </label>
             </div>
 

@@ -113,7 +113,7 @@
         
         <!-- Submit Buttons -->
         <div style="display: flex; gap: 12px; padding-top: 20px; border-top: 2px solid #f3f4f6;">
-            <button type="submit" style="flex: 1; background: linear-gradient(135deg, var(--primary) 0%, #be123c 100%); color: white; border: none; padding: 16px 32px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(225,29,72,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(225,29,72,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(225,29,72,0.3)';">
+            <button type="submit" style="flex: 1; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 16px 32px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)';">
                 ✓ إرسال طلب التسجيل
             </button>
             <a href="<?= $this->url('/dashboard') ?>" style="background: #f3f4f6; color: var(--text-main); border: none; padding: 16px 32px; border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; transition: all 0.3s;" onmouseover="this.style.background='#e5e7eb';" onmouseout="this.style.background='#f3f4f6';">

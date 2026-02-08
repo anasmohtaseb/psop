@@ -130,7 +130,7 @@
                         <tr style="border-bottom: 1px solid var(--border-color);">
                             <td style="padding: 1rem;">
                                 <div style="font-weight: 600; color: var(--text-primary);"><?= $this->e($reg['competition_name']) ?></div>
-                                <div style="font-size: 0.85rem; color: var(--text-tertiary);"><?= $this->e($reg['edition_year']) ?></div>
+                                <div style="font-size: 0.85rem; color: var(--text-tertiary);"><?= $this->e($reg['year']) ?></div>
                             </td>
                             <td style="padding: 1rem; color: var(--text-secondary);">
                                 <?= date('Y/m/d', strtotime($reg['created_at'])) ?>

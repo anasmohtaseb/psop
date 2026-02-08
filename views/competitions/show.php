@@ -270,14 +270,17 @@ if (!isset($competition_images)) {
     $hasActiveEdition = false;
     $activeEdition = null;
     foreach ($editions as $edition) {
-        if ($edition['status'] === 'active' || $edition['status'] === 'upcoming') {
+        if (in_array($edition['status'], ['open', 'active', 'upcoming'])) {
             $hasActiveEdition = true;
             $activeEdition = $edition;
             break;
         }
     }
+
+    // Check if registration is globally allowed for this competition
+    $registrationAllowed = $competition['is_registration_open'] ?? true;
     ?>
-    <?php if ($hasActiveEdition): ?>
+    <?php if ($hasActiveEdition && $registrationAllowed): ?>
         <?php
         // Check if student is already registered
         $registrationModel = new \App\Models\Registration($this->config);
@@ -298,16 +301,67 @@ if (!isset($competition_images)) {
                             عرض تسجيلاتي
                         </a>
                     <?php else: ?>
-                        <h2 style="color: white; font-size: 28px; margin-bottom: 15px;">سجل في المسابقة الآن!</h2>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 16px; margin-bottom: 25px;">
+                        <!-- Form for non-registered users -->
+                        <h2 style="color: white; font-size: 28px; margin-bottom: 10px;">سجل في المسابقة الآن!</h2>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 16px; margin: 0;">
                             <?= $this->e($activeEdition['name_ar'] ?? 'النسخة الحالية') ?> - <?= $activeEdition['year'] ?>
                         </p>
-                        <a href="<?= $this->url('/registrations/create/' . $activeEdition['id']) ?>" 
-                           class="btn" 
-                           style="display: inline-block; padding: 12px 30px; background: white; color: var(--primary); font-weight: 700; text-decoration: none; border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                            سجل في المسابقة
-                        </a>
+                    </div>
+                        
+                        <!-- Embedded Registration Form -->
+                        <div style="background: white; border-radius: 16px; padding: 32px; text-align: right; color: var(--text-main); margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                            <h3 style="color: var(--primary); font-size: 22px; font-weight: 700; margin-bottom: 20px; text-align: center;">نموذج التسجيل في المسابقة</h3>
+                            
+                            <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
+                                <div style="margin-bottom: 5px;"><strong>الطالب:</strong> <?= $this->e($student_profile['name'] ?? $_SESSION['user']['name']) ?></div>
+                                <div><strong>المدرسة:</strong> <?= $this->e($student_profile['school_name'] ?? 'غير محدد') ?></div>
+                            </div>
+                            
+                            <form method="POST" action="<?= $this->url('/registrations/store') ?>">
+                                <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                                <input type="hidden" name="competition_edition_id" value="<?= $activeEdition['id'] ?>">
+
+                                <?php if (!empty($activeEdition['tracks'])): ?>
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">المسار <span style="color: #ef4444;">*</span></label>
+                                    <select name="track_id" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: border 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='#ddd'">
+                                        <option value="">اختر المسار المناسب...</option>
+                                        <?php foreach ($activeEdition['tracks'] as $track): ?>
+                                            <option value="<?= $track['id'] ?>">
+                                                <?= $this->e($track['name_ar']) ?> 
+                                                (<?= $track['participation_type'] == 'individual' ? 'فردي' : 'فريق' ?>)
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <?php endif; ?>
+
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">ملاحظات إضافية</label>
+                                    <textarea name="notes" rows="3" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: border 0.3s;" placeholder="هل لديك أي احتياجات خاصة أو استفسارات؟" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='#ddd'"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn" style="width: 100%; padding: 14px; background: var(--primary); color: white; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(225, 29, 72, 0.3)'" onmouseout="this.style.transform='none'; this.style.boxShadow='none'">
+                                    تأكيد التسجيل في المسابقة
+                                </button>
+                            </form>
+                        </div>
                     <?php endif; ?>
+            </div>
+        </section>
+    <?php else: ?>
+        <section>
+            <div class="container">
+                <div class="card" style="padding: 40px; text-align: center; border-radius: 16px; background: #f8fafc; border: 1px dashed #cbd5e1;">
+                    <div style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;">📅</div>
+                    <h3 style="color: var(--text-secondary); font-size: 20px; font-weight: 600;">لا يوجد تسجيل متاح حالياً</h3>
+                    <p style="color: var(--text-muted);">
+                        <?php if (!$registrationAllowed): ?>
+                            التسجيل في هذه المسابقة مغلق حالياً من قبل الإدارة.
+                        <?php else: ?>
+                            لا توجد نسخ نشطة حالياً للتسجيل. يرجى متابعة الإعلانات لمعرفة المواعيد القادمة.
+                        <?php endif; ?>
+                    </p>
                 </div>
             </div>
         </section>

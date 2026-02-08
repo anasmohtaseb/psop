@@ -21,6 +21,7 @@
                         <th style="padding: 16px; text-align: right; font-weight: 700; color: var(--text-main);">الاسم بالعربية</th>
                         <th style="padding: 16px; text-align: right; font-weight: 700; color: var(--text-main);">الرمز</th>
                         <th style="padding: 16px; text-align: right; font-weight: 700; color: var(--text-main);">الفئة</th>
+                        <th style="padding: 16px; text-align: center; font-weight: 700; color: var(--text-main);">حالة التسجيل</th>
                         <th style="padding: 16px; text-align: center; font-weight: 700; color: var(--text-main);">الحالة</th>
                         <th style="padding: 16px; text-align: center; font-weight: 700; color: var(--text-main);">الإجراءات</th>
                     </tr>
@@ -62,6 +63,17 @@
                                 ?>
                             </td>
                             <td style="padding: 16px; text-align: center;">
+                                <?php if ($comp['is_registration_open'] ?? true): ?>
+                                    <span style="display: inline-block; padding: 6px 14px; background: #e0f2fe; color: #0284c7; border-radius: 999px; font-size: 13px; font-weight: 600;">
+                                        التسجيل مفتوح
+                                    </span>
+                                <?php else: ?>
+                                    <span style="display: inline-block; padding: 6px 14px; background: #fef2f2; color: #dc2626; border-radius: 999px; font-size: 13px; font-weight: 600;">
+                                        التسجيل مغلق
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td style="padding: 16px; text-align: center;">
                                 <?php if ($comp['is_active']): ?>
                                     <span style="display: inline-block; padding: 6px 14px; background: #22c55e; color: white; border-radius: 999px; font-size: 13px; font-weight: 600;">
                                         نشط
@@ -78,6 +90,11 @@
                                        style="display: inline-block; padding: 6px 12px; background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;"
                                        title="عرض">
                                         👁️ عرض
+                                    </a>
+                                    <a href="<?= $this->url('/admin/competitions/' . $comp['id'] . '/editions') ?>" 
+                                       style="display: inline-block; padding: 6px 12px; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;"
+                                       title="النسخ">
+                                        📅 النسخ
                                     </a>
                                     <a href="<?= $this->url('/admin/competitions/' . $comp['id'] . '/edit') ?>" 
                                        style="display: inline-block; padding: 6px 12px; background: rgba(249, 115, 22, 0.1); color: #f97316; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;"

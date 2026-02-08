@@ -59,6 +59,8 @@ $router->post('/register/school', 'AuthController', 'registerSchool');
 
 // Dashboard routes
 $router->get('/dashboard', 'DashboardController', 'index');
+$router->get('/dashboard/profile', 'DashboardController', 'profile');
+$router->post('/dashboard/profile/update', 'DashboardController', 'updateProfile');
 
 // Competition routes (public)
 $router->get('/competitions', 'CompetitionController', 'index');
@@ -68,6 +70,7 @@ $router->get('/competitions/{id}', 'CompetitionController', 'show');
 $router->get('/dashboard/registrations', 'RegistrationController', 'myRegistrations');
 $router->get('/registrations/create/{editionId}', 'RegistrationController', 'create');
 $router->post('/registrations/store', 'RegistrationController', 'store');
+$router->get('/registrations/view/{id}', 'RegistrationController', 'show');
 
 // Admin routes
 $router->get('/admin/competitions', 'CompetitionController', 'adminIndex');
@@ -75,6 +78,14 @@ $router->get('/admin/competitions/create', 'CompetitionController', 'create');
 $router->post('/admin/competitions/store', 'CompetitionController', 'store');
 $router->get('/admin/competitions/{id}/edit', 'CompetitionController', 'edit');
 $router->post('/admin/competitions/{id}/update', 'CompetitionController', 'update');
+
+// Admin Competition Editions routes
+$router->get('/admin/competitions/{id}/editions', 'Admin\CompetitionEditionController', 'index');
+$router->get('/admin/competitions/{id}/editions/create', 'Admin\CompetitionEditionController', 'create');
+$router->post('/admin/competitions/{id}/editions/store', 'Admin\CompetitionEditionController', 'store');
+$router->get('/admin/competitions/{id}/editions/{editionId}/edit', 'Admin\CompetitionEditionController', 'edit');
+$router->post('/admin/competitions/{id}/editions/{editionId}/update', 'Admin\CompetitionEditionController', 'update');
+$router->post('/admin/competitions/{id}/editions/{editionId}/delete', 'Admin\CompetitionEditionController', 'delete');
 
 $router->get('/admin/registrations', 'RegistrationController', 'adminList');
 $router->get('/admin/registrations/create', 'RegistrationController', 'adminCreate');
