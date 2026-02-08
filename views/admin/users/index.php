@@ -90,8 +90,8 @@
                             <div style="font-weight: 600; color: var(--text-main); margin-bottom: 4px;"><?= $this->e($user['name']) ?></div>
                             <div style="font-size: 12px; color: var(--text-muted);">ID: <?= $user['id'] ?></div>
                         </td>
-                        <td style="padding: 16px; color: var(--text-main);"><?= $this->e($user['email']) ?></td>
-                        <td style="padding: 16px; color: var(--text-main);"><?= $this->e($user['phone'] ?? '-') ?></td>
+                        <td style="padding: 16px; color: var(--text-main);"><?= $this->e($user['email'] ?? '-') ?></td>
+                        <td style="padding: 16px; color: var(--text-main);"><?= $this->e($user['phone'] ?? '-') ?></td></td>
                         <td style="padding: 16px;">
                             <?php
                             $typeLabels = [

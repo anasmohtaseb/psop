@@ -106,8 +106,11 @@ class View
     /**
      * Escape HTML output
      */
-    public function e(string $string): string
+    public function e(?string $string): string
     {
+        if ($string === null) {
+            return '';
+        }
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 

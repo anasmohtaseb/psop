@@ -39,7 +39,7 @@
                     <option value="<?= $student['id'] ?>" 
                             data-school="<?= $student['school_id'] ?? '' ?>"
                             <?= ($_SESSION['old']['student_user_id'] ?? '') == $student['id'] ? 'selected' : '' ?>>
-                        <?= $this->e($student['name']) ?> - <?= $this->e($student['email']) ?>
+                        <?= $this->e($student['name']) ?> - <?= $this->e($student['email'] ?? $student['phone']) ?>
                         <?php if (!empty($student['school_name'])): ?>
                             (<?= $this->e($student['school_name']) ?>)
                         <?php endif; ?>

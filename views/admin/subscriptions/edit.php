@@ -34,7 +34,7 @@
                             <div class="mb-3">
                                 <label class="form-label">المستخدم</label>
                                 <input type="text" class="form-control" 
-                                       value="<?= $this->e($user['name']) ?> (<?= $this->e($user['email']) ?>)" 
+                                       value="<?= $this->e($user['name']) ?> (<?= $this->e($user['email'] ?? $user['phone']) ?>)" 
                                        readonly>
                             </div>
                             

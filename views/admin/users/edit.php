@@ -31,7 +31,7 @@
                 <input type="email" 
                        name="email" 
                        required
-                       value="<?= $this->e($_SESSION['old']['email'] ?? $user['email']) ?>"
+                       value="<?= $this->e($_SESSION['old']['email'] ?? $user['email'] ?? '') ?>"
                        style="width: 100%; padding: 12px 16px; border: 2px solid rgba(148, 163, 184, 0.3); border-radius: 12px; font-size: 15px; transition: all 0.2s;">
                 <?php if (isset($_SESSION['errors']['email'])): ?>
                     <div style="color: var(--primary); font-size: 14px; margin-top: 6px;"><?= $_SESSION['errors']['email'] ?></div>
