@@ -1,10 +1,10 @@
 <div class="dashboard-header" style="margin-bottom: 30px;">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-            <h1 style="color: var(--text-main); font-size: 28px; margin-bottom: 8px;">إدارة المدارس</h1>
-            <p style="color: var(--text-muted);">عرض وإدارة جميع المدارس المسجلة</p>
+            <h1 style="color: #1f2937; font-size: 28px; margin-bottom: 8px;">إدارة المدارس</h1>
+            <p style="color: #6b7280;">عرض وإدارة جميع المدارس المسجلة</p>
         </div>
-        <a href="<?= $this->url('/admin/schools/create') ?>" style="background: var(--primary); color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+        <a href="<?= $this->url('/admin/schools/create') ?>" style="background: #e11d48; color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
             <span style="font-size: 20px;">➕</span>
             إضافة مدرسة جديدة
         </a>
@@ -65,8 +65,8 @@
             </select>
         </div>
         <div style="display: flex; gap: 10px;">
-            <button type="submit" style="background: var(--primary); color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; flex: 1;">بحث</button>
-            <a href="<?= $this->url('/admin/schools') ?>" style="background: #e2e8f0; color: var(--text-main); padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; justify-content: center;">إعادة تعيين</a>
+            <button type="submit" style="background: #e11d48; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; flex: 1;">بحث</button>
+            <a href="<?= $this->url('/admin/schools') ?>" style="background: #e2e8f0; color: #1f2937; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; justify-content: center;">إعادة تعيين</a>
         </div>
     </form>
 </div>
@@ -76,18 +76,18 @@
     <table style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
-                <th style="padding: 16px; text-align: right; font-weight: 600; color: var(--text-main);">المدرسة</th>
-                <th style="padding: 16px; text-align: right; font-weight: 600; color: var(--text-main);">النوع</th>
-                <th style="padding: 16px; text-align: right; font-weight: 600; color: var(--text-main);">المحافظة</th>
-                <th style="padding: 16px; text-align: right; font-weight: 600; color: var(--text-main);">المدينة</th>
-                <th style="padding: 16px; text-align: right; font-weight: 600; color: var(--text-main);">الحالة</th>
-                <th style="padding: 16px; text-align: center; font-weight: 600; color: var(--text-main);">الإجراءات</th>
+                <th style="padding: 16px; text-align: right; font-weight: 600; color: #1f2937;">المدرسة</th>
+                <th style="padding: 16px; text-align: right; font-weight: 600; color: #1f2937;">النوع</th>
+                <th style="padding: 16px; text-align: right; font-weight: 600; color: #1f2937;">المحافظة</th>
+                <th style="padding: 16px; text-align: right; font-weight: 600; color: #1f2937;">المدينة</th>
+                <th style="padding: 16px; text-align: right; font-weight: 600; color: #1f2937;">الحالة</th>
+                <th style="padding: 16px; text-align: center; font-weight: 600; color: #1f2937;">الإجراءات</th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($schools)): ?>
                 <tr>
-                    <td colspan="6" style="padding: 40px; text-align: center; color: var(--text-muted);">
+                    <td colspan="6" style="padding: 40px; text-align: center; color: #6b7280;">
                         لا توجد مدارس
                     </td>
                 </tr>
@@ -95,7 +95,7 @@
                 <?php foreach ($schools as $school): ?>
                     <tr style="border-bottom: 1px solid #f1f5f9;">
                         <td style="padding: 16px;">
-                            <div style="font-weight: 600; color: var(--text-main);"><?= $this->e($school['name']) ?></div>
+                            <div style="font-weight: 600; color: #1f2937;"><?= $this->e($school['name']) ?></div>
                         </td>
                         <td style="padding: 16px;">
                             <?php
@@ -114,8 +114,8 @@
                                 <?= $typeLabels[$school['type']] ?>
                             </span>
                         </td>
-                        <td style="padding: 16px; color: var(--text-main);"><?= $this->e($school['governorate']) ?></td>
-                        <td style="padding: 16px; color: var(--text-main);"><?= $this->e($school['city']) ?></td>
+                        <td style="padding: 16px; color: #1f2937;"><?= $this->e($school['governorate']) ?></td>
+                        <td style="padding: 16px; color: #1f2937;"><?= $this->e($school['city']) ?></td>
                         <td style="padding: 16px;">
                             <?php
                             $statusLabels = [
