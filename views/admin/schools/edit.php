@@ -4,7 +4,7 @@
 </div>
 
 <div class="card" style="background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 30px; max-width: 900px;">
-    <form method="POST" action="<?= $this->url('/admin/schools/update/' . $school['id']) ?>">
+    <form method="POST" action="<?= $this->url('/admin/schools/' . $school['id'] . '/update') ?>">
         <input type="hidden" name="_csrf_token" value="<?= $csrf_token ?>">
         
         <div style="display: grid; gap: 24px;">
