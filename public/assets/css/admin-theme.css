@@ -4,6 +4,7 @@
 
 :root {
     /* Brand Colors */
+    --primary: #e11d48;
     --primary-color: #e11d48;
     --primary-hover: #be123c;
     --primary-light: #ffe4e6;
@@ -17,8 +18,10 @@
     --border-color: #e5e7eb;
     
     /* Text Colors */
+    --text-main: #1f2937;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
+    --text-muted: #6b7280;
     --text-tertiary: #9ca3af;
     
     /* Functional Colors */
