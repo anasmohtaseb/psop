@@ -134,7 +134,18 @@
                             </span>
                         </td>
                         <td style="padding: 16px;">
-                            <div style="display: flex; gap: 8px; justify-content: center;">
+                            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                                <?php if ($school['status'] === 'active'): ?>
+                                    <form method="POST" action="<?= $this->url('/admin/schools/' . $school['id'] . '/toggle-status') ?>" style="display: inline;">
+                                        <input type="hidden" name="_csrf_token" value="<?= $this->generateCsrfToken() ?>">
+                                        <button type="submit" style="background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">إلغاء التفعيل</button>
+                                    </form>
+                                <?php else: ?>
+                                    <form method="POST" action="<?= $this->url('/admin/schools/' . $school['id'] . '/toggle-status') ?>" style="display: inline;">
+                                        <input type="hidden" name="_csrf_token" value="<?= $this->generateCsrfToken() ?>">
+                                        <button type="submit" style="background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">تفعيل</button>
+                                    </form>
+                                <?php endif; ?>
                                 <a href="<?= $this->url('/admin/schools/' . $school['id'] . '/edit') ?>" style="background: #3b82f6; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">تعديل</a>
                                 <form method="POST" action="<?= $this->url('/admin/schools/' . $school['id'] . '/delete') ?>" style="display: inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذه المدرسة؟')">
                                     <input type="hidden" name="_csrf_token" value="<?= $this->generateCsrfToken() ?>">

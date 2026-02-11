@@ -108,6 +108,7 @@ $router->post('/admin/schools/store', 'SchoolController', 'store');
 $router->get('/admin/schools/{id}/edit', 'SchoolController', 'edit');
 $router->post('/admin/schools/{id}/update', 'SchoolController', 'update');
 $router->post('/admin/schools/{id}/delete', 'SchoolController', 'delete');
+$router->post('/admin/schools/{id}/toggle-status', 'SchoolController', 'toggleStatus');
 
 // Subscription routes
 $router->get('/subscriptions/plans', 'SubscriptionController', 'plans');

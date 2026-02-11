@@ -212,4 +212,32 @@ class SchoolController extends Controller
         $this->setFlash('success', 'تم حذف المدرسة بنجاح');
         $this->redirect('/admin/schools');
     }
+
+    /**
+     * Toggle school status (active/inactive)
+     */
+    public function toggleStatus(string $id): void
+    {
+        $this->requireRole('admin');
+        $this->validateCsrfToken();
+
+        $school = $this->schoolModel->findById((int)$id);
+
+        if (!$school) {
+            $this->setFlash('error', 'المدرسة غير موجودة');
+            $this->redirect('/admin/schools');
+            return;
+        }
+
+        // Toggle between active and inactive
+        $newStatus = $school['status'] === 'active' ? 'inactive' : 'active';
+        
+        $this->schoolModel->update((int)$id, [
+            'status' => $newStatus
+        ]);
+
+        $statusText = $newStatus === 'active' ? 'تفعيل' : 'إلغاء تفعيل';
+        $this->setFlash('success', "تم {$statusText} المدرسة بنجاح");
+        $this->redirect('/admin/schools');
+    }
 }
